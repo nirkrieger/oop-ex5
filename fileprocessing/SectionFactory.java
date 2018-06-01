@@ -7,6 +7,10 @@ import fileprocessing.orders.OrderFactory;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Section parsing factor.
+ * TODO: convert to static class?
+ */
 class SectionFactory {
 	private static final String FILTER = "FILTER";
 	private static final String ORDER = "ORDER";
@@ -15,9 +19,6 @@ class SectionFactory {
 	 * commands file.
 	 */
 	private File commandsFile;
-
-	private FiltersFactory filtersFactory = new FiltersFactory();
-	private OrderFactory orderFactory = new OrderFactory();
 
 	/**
 	 * Section factory constructor.
@@ -32,43 +33,51 @@ class SectionFactory {
 	}
 
 	/**
+	 * creates a Section from given arguments
+	 * @param filterArgument argument to be passed to filter factory.
+	 * @param orderArgument argument to be passed to filter factory.
+	 * @return Section object.
+	 */
+	private Section createSection(String filterArgument, String orderArgument) {
+		FileFilter filter = FiltersFactory.chooseFilter(filterArgument);
+		Order order = OrderFactory.chooseOrder(orderArgument);
+		return new Section(filter, order);
+	}
+
+	/**
 	 * @return parses a commands file and returns an array of sections.
 	 */
-	Section[] parse() {
+	ParseResult parse() {
 		ArrayList<Section> parsedSections = null;
+		ArrayList<SectionParsingException> exceptions = null;
+		String line;
+		int lineNum = 1;
+		String filterArgument = "", orderArgument = "";
+		boolean firstLine = true, beforeFilter = true;
 		// try to read commands file.
 		try (BufferedReader br = new BufferedReader(new FileReader(commandsFile))) {
 			parsedSections = new ArrayList<>();
-			// initialize variables for parsing commands file.
-			String filterArgument = new String(), orderArgument = new String();
-			boolean firstLine = true;
-			boolean beforeFilter = true;
-			String line;
-			int lineNum = 1;
 			// iterate:
 			while ((line = br.readLine()) != null) {
 				if ((line.equals(FILTER) && beforeFilter)) {
 					// filter found in the right position.
 					beforeFilter = false;
 					if (firstLine) {
-						// if firstLine, ignore.
+						// ignore first line.
 						firstLine = false;
 					} else {
-	//					FileFilter filter = filtersFactory.chooseFilter(filterArgument);
-						Order order = orderFactory.chooseOrder(orderArgument);
-						FileFilter filter = null;
-						parsedSections.add(new Section(filter, order));
-						filterArgument = new String();
-						orderArgument = new String();
+						parsedSections.add(createSection(filterArgument, orderArgument));
+						filterArgument = "";
+						orderArgument = "";
 					}
 				}else if (line.equals(ORDER) && !beforeFilter) {
 					// ORDER found in the right position, set beforeFilter to true.
 					beforeFilter = true;
 				} else {
-					if (beforeFilter && orderArgument.equals(new String())) {
+					if (beforeFilter && orderArgument.isEmpty()) {
 						// this is order argument, make
 						orderArgument = line;
-					} else if (!beforeFilter && filterArgument.equals(new String())) {
+					} else if (!beforeFilter && filterArgument.isEmpty()) {
 						filterArgument = line;
 					} else {
 						//TODO: VERY BAD!!!!
@@ -76,11 +85,19 @@ class SectionFactory {
 				}
 				lineNum++;
 			}
+			if (!beforeFilter) {
+				// File ended without ORDER clause!
+				//TODO: handle exception!
+			} else {
+				// handle last section.
+				parsedSections.add(createSection(filterArgument, orderArgument));
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return (Section[]) parsedSections.toArray();
+		Section[] sections = (Section[]) parsedSections.toArray();
+		return new ParseResult(sections, (SectionParsingException[]) exceptions.toArray());
 	}
 }

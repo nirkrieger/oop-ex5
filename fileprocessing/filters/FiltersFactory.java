@@ -22,7 +22,7 @@ public class FiltersFactory {
 
 
 
-    static FileFilter chooseFilter(String filtertype) {/*TODO didn't put \\w becuse _ _ is an error*/
+    public static FileFilter chooseFilter(String filtertype) {/*TODO didn't put \\w becuse _ _ is an error*/
         Pattern patternSize = Pattern.compile("(\\w)+#(\\d)+(NOT)?");
         Pattern patternBetween = Pattern.compile("(\\w+)#(\\d)+#(\\d)+(NOT)?");
         Pattern patternYesNo = Pattern.compile("(\\w+)#(Yes|No)(NOT)?");
