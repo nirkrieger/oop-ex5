@@ -29,9 +29,9 @@ public class myTests {
 //            System.out.println("error");
 //        }
         String test = "greater_Than#3#42";
-        Pattern mySeq = Pattern.compile("(\\w+)#(\\d+)");
+        Pattern mySeq = Pattern.compile("(\\w+)#(\\d+)#(\\d+)");
         Matcher findSeq = mySeq.matcher(test);
-        if (findSeq.find()) {
+        if (findSeq.matches()) {
             System.out.println(findSeq.group(1)+findSeq.group(2));
         }
     }
