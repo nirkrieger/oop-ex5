@@ -6,7 +6,7 @@ import fileprocessing.orders.Order;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 
 /**
@@ -58,20 +58,12 @@ class Section {
 		return files;
 	}
 
-
 	/**
 	 * Apply filter on processed files.
 	 */
 	File[] applyFilter(File[] files) {
 		// for each file, if filter accepts file add it to list.
-		ArrayList<File> tempFiles = new ArrayList<>();
-		for (File file : files) {
-			if (filter.accept(file)) {
-				tempFiles.add(file);
-			}
-		}
-		// cast list to array and return.
-		return (File[]) tempFiles.toArray();
+		return Arrays.stream(files).filter(file -> filter.accept(file)).toArray(File[]::new);
 	}
 
 	/**
