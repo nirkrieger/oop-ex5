@@ -1,103 +1,176 @@
 package fileprocessing;
 
 import fileprocessing.filters.FiltersFactory;
-import fileprocessing.orders.Order;
 import fileprocessing.orders.OrderFactory;
+import fileprocessing.orders.OrderFactoryException;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
- * Section parsing factor.
- * TODO: convert to static class?
+ * Section parsing factory.
  */
 class SectionFactory {
+	/**
+	 * FILTER subsection prefix
+	 */
 	private static final String FILTER = "FILTER";
+	/**
+	 * ORDER subsection prefix
+	 */
 	private static final String ORDER = "ORDER";
+	/**
+	 * Missing FILTER prefix error message.
+	 */
+	private static final String NO_FILTER = "FILTER sub-section is missing";
+	/**
+	 * Missing ORDER prefix error message.
+	 */
+	private static final String NO_ORDER = "ORDER sub-section is missing";
+	/**
+	 * This flag indicates whether this is the first line in the file.
+	 */
+	private boolean firstLine;
+	/**
+	 * This flag is true iff this is a filter subsection, else it is an order subsection.
+	 */
+	private boolean filterSubSection;
+	/**
+	 * This flag is true iff FILTER keyword was found in FILTER subsection.
+	 */
+	private boolean filterFound;
+	/**
+	 * This flag is true iff ORDER keyword was found in ORDER subsection.
+	 */
+	private boolean orderFound;
+	/**
+	 * Holds the currently parsed section.
+	 */
+	private Section currentSection;
+	/**
+	 * list of sections.
+	 */
+	private LinkedList<Section> sections;
 
 	/**
-	 * commands file.
+	 * Default constructor.
 	 */
-	private File commandsFile;
-
-	/**
-	 * Section factory constructor.
-	 * @param commandsFile commands file to parse.
-	 */
-	SectionFactory(File commandsFile) throws IOException{
-		// TODO: What to do with exceptions?!
-		if (commandsFile == null || !commandsFile.isDirectory()) {
-			throw new IOException();
-		}
-		this.commandsFile = commandsFile;
+	SectionFactory() {
+		reset();
 	}
 
 	/**
-	 * creates a Section from given arguments
-	 * @param filterArgument argument to be passed to filter factory.
-	 * @param orderArgument argument to be passed to filter factory.
-	 * @return Section object.
+	 * Resets object's data members. In case when multiple parse calls are made one after another, we have
+	 * to ensure data members are re-initialized.
 	 */
-	private Section createSection(String filterArgument, String orderArgument) {
-		FileFilter filter = FiltersFactory.chooseFilter(filterArgument);
-		Order order = OrderFactory.chooseOrder(orderArgument);
-		return new Section(filter, order);
+	private void reset() {
+		firstLine = true;
+		filterSubSection = true;
+		filterFound = false;
+		orderFound = false;
+		currentSection = new Section();
+		sections = new LinkedList<>();
 	}
 
 	/**
-	 * @return parses a commands file and returns an array of sections.
+	 * Handles lines within ORDER subsections. If lines equals to ORDER, it marks orderFound as true,
+	 * if ORDER was not found within this ORDER subsection throw an exception and otherwise call factory
+	 * for an order object.
+	 * @param line line in commands file.
+	 * @param lineNum line number.
+	 * @throws BadFormatException
 	 */
-	ParseResult parse() {
-		ArrayList<Section> parsedSections = null;
-		ArrayList<SectionParsingException> exceptions = null;
-		String line;
-		int lineNum = 1;
-		String filterArgument = "", orderArgument = "";
-		boolean firstLine = true, beforeFilter = true;
-		// try to read commands file.
-		try (BufferedReader br = new BufferedReader(new FileReader(commandsFile))) {
-			parsedSections = new ArrayList<>();
-			// iterate:
-			while ((line = br.readLine()) != null) {
-				if ((line.equals(FILTER) && beforeFilter)) {
-					// filter found in the right position.
-					beforeFilter = false;
-					if (firstLine) {
-						// ignore first line.
-						firstLine = false;
-					} else {
-						parsedSections.add(createSection(filterArgument, orderArgument));
-						filterArgument = "";
-						orderArgument = "";
-					}
-				}else if (line.equals(ORDER) && !beforeFilter) {
-					// ORDER found in the right position, set beforeFilter to true.
-					beforeFilter = true;
-				} else {
-					if (beforeFilter && orderArgument.isEmpty()) {
-						// this is order argument, make
-						orderArgument = line;
-					} else if (!beforeFilter && filterArgument.isEmpty()) {
-						filterArgument = line;
-					} else {
-						//TODO: VERY BAD!!!!
-					}
+	private void parseOrderLine(String line, int lineNum) throws BadFormatException {
+
+		// handle order sub section:
+		if (line.equals(ORDER)) {
+			orderFound = true;
+		} else if (!orderFound) {
+			// this is order subsection but order is not found, throw exception.
+			throw new BadFormatException(NO_ORDER);
+		} else {
+			orderFound = false;
+			filterSubSection = true;
+			if (!line.equals(FILTER)) {
+				// FILTER could be found right after ORDER, make sure this is not the case.
+				try {
+					currentSection.setOrder(OrderFactory.chooseOrder(line));
 				}
-				lineNum++;
+				catch (OrderFactoryException e) {
+					currentSection.addWarning(new Warning(lineNum));
+				}
+				parseFilterLine(line, lineNum);
 			}
-			if (!beforeFilter) {
-				// File ended without ORDER clause!
-				//TODO: handle exception!
-			} else {
-				// handle last section.
-				parsedSections.add(createSection(filterArgument, orderArgument));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		Section[] sections = (Section[]) parsedSections.toArray();
-		return new ParseResult(sections, (SectionParsingException[]) exceptions.toArray());
+	}
+
+	/**
+	 * Handles lines within FILTER subsections. If lines equals to FILTER, it marks filterFound as true,
+	 * if filter was not found within this FILTER subsection throw an exception and otherwise call factory
+	 * for a filter object.
+	 * @param line line in commands file.
+	 * @param lineNum line number.
+	 * @throws BadFormatException
+	 */
+	private void parseFilterLine(String line, int lineNum) throws BadFormatException {
+		// handle filter subsection
+		if (line.equals(FILTER) && !filterFound) {
+			filterFound = true;
+			if (firstLine) {
+				firstLine = false;
+			} else {
+				sections.add(currentSection);
+				currentSection = new Section();
+			}
+		}
+		else if (!filterFound) {
+			throw new BadFormatException(NO_FILTER);
+		} else {
+			filterSubSection = false;
+			filterFound = false;
+			try {
+				currentSection.setFilter(FiltersFactory.chooseFilter(line));
+			}
+			//TODO: dont forget to uncomment this.
+//						catch (FilterFactoryException e) {
+			catch (Exception e) {
+				currentSection.addWarning(new Warning(lineNum));
+			}
+		}
+	}
+
+	/**
+	 * Parses a commands file and returns an array of sections.
+	 * @param commandsFile given commands file.
+	 * @return an array of Sections.
+	 * @throws IOException
+	 * @throws BadFormatException thrown when given a command file with a bad format.
+	 */
+	Section[] parse(File commandsFile) throws IOException, BadFormatException{
+		// reset object variables.
+		reset();
+		try (LineNumberReader reader = new LineNumberReader(new FileReader(commandsFile))) {
+			String line;
+			// read lines from commands file
+			while ((line = reader.readLine()) != null) {
+				if (filterSubSection) {
+					parseFilterLine(line, reader.getLineNumber());
+				} else {
+					parseOrderLine(line, reader.getLineNumber());
+				}
+			}
+			// do file closures - if ended with bad format or just need to add last section.
+			if (filterSubSection && filterFound) {
+				// in case file ended without supplied filter or order subsection.
+				throw new BadFormatException(NO_FILTER);
+			} else if (!filterSubSection && !orderFound) {
+				// in case file ended without order subsection.
+				throw new BadFormatException(NO_ORDER);
+			} else if (!firstLine){
+				sections.add(currentSection);
+			}
+		}
+		Section[] sectionsArray = new Section[sections.size()];
+		return sections.toArray(sectionsArray);
 	}
 }

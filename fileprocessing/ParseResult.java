@@ -11,14 +11,14 @@ class ParseResult {
 	/**
 	 * result exceptions
 	 */
-	private SectionParsingException[] exceptions;
+	private Warning[] exceptions;
 
 	/**
 	 * Constructor
 	 * @param sections sections
 	 * @param exceptions exceptions
 	 */
-	ParseResult(Section[] sections, SectionParsingException[] exceptions) {
+	ParseResult(Section[] sections, Warning[] exceptions) {
 		this.sections = sections;
 		this.exceptions = exceptions;
 	}
@@ -33,7 +33,7 @@ class ParseResult {
 	/**
 	 * @return exceptions
 	 */
-	SectionParsingException[] getExceptions() {
+	Warning[] getExceptions() {
 		return exceptions;
 	}
 }

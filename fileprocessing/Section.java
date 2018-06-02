@@ -5,8 +5,8 @@ import fileprocessing.orders.AbsOrder;
 import fileprocessing.orders.Order;
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 
 /**
@@ -24,21 +24,27 @@ class Section {
 	private Order order;
 
 	/**
-	 * Constructor, generates a new section object.
-	 *
-	 * @param filter filter to apply on files.
-	 * @param order  how to order files.
+	 * Parse time warnings.
 	 */
-	Section(FileFilter filter, Order order) {
+	private ArrayList<Warning> warnings;
+
+	/**
+	 * Generate a new Section object
+	 * @param filter given filter.
+	 * @param order given files order.
+	 * @param warnings found warnings.
+	 */
+	Section(FileFilter filter, Order order, ArrayList<Warning> warnings) {
 		this.filter = filter;
 		this.order = order;
+		this.warnings = warnings;
 	}
 
 	/**
 	 * Default constructor.
 	 */
 	Section() {
-		this(new AllFilter(), new AbsOrder());
+		this(new AllFilter(), new AbsOrder(), new ArrayList<>());
 	}
 
 	/**
@@ -47,13 +53,10 @@ class Section {
 	 * @return filtered and ordered files.
 	 */
 	File[] execute(File[] files) {
-		// TODO: decide what is the correct flow, maybe can be merged into one statement.
-		// TODO: apply exceptions.
 		// filter files
 		files = applyFilter(files);
 		// order files
 		this.order.orderFiles(files);
-
 		// return ordered and filtered files.
 		return files;
 	}
@@ -66,35 +69,32 @@ class Section {
 		return Arrays.stream(files).filter(file -> filter.accept(file)).toArray(File[]::new);
 	}
 
-	/**
-	 * @return gets section's filter.
-	 */
-	FileFilter getFilter() {
-		return filter;
-	}
 
 	/**
 	 * Sets section's filter.
-	 *
 	 * @param filter given filter.
 	 */
 	void setFilter(FileFilter filter) {
 		this.filter = filter;
 	}
 
-	/**
-	 * @return Returns section's order
-	 */
-	Order getOrder() {
-		return order;
-	}
 
 	/**
 	 * Sets section's order
-	 *
 	 * @param order given order
 	 */
 	void setOrder(Order order) {
 		this.order = order;
+	}
+	ArrayList<Warning> getWarnings() {
+		return warnings;
+	}
+
+	/**
+	 * Adds a warning to the warning list.
+	 * @param warning warning to add.
+	 */
+	void addWarning(Warning warning) {
+		this.warnings.add(warning);
 	}
 }

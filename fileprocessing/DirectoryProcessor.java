@@ -37,7 +37,6 @@ public class DirectoryProcessor {
 	 * No reading permission
 	 */
 	private static final String NO_READ_PERMISSION = "Commands file has no reading permission.";
-
 	/**
 	 * error format
 	 */
@@ -47,24 +46,24 @@ public class DirectoryProcessor {
 	 * Sections to execute.
 	 */
 	private Section[] sections;
-	/**
-	 * Sections to execute.
-	 */
-	private SectionParsingException[] exceptions;
+
 
 	/**
 	 * Generates a new directory processor with the given commandsFile.
 	 * @param commandsFile given commands file.
 	 */
-	public DirectoryProcessor(File commandsFile) {
-		try {
-			SectionFactory sectionFactory = new SectionFactory(commandsFile);
-			ParseResult result = sectionFactory.parse();
-			sections = result.getSections();
-			exceptions = result.getExceptions();
-		}
-		catch (IOException e) {
+	public DirectoryProcessor(File commandsFile) throws IOException, BadFormatException {
+		SectionFactory sectionFactory = new SectionFactory();
+		sections = sectionFactory.parse(commandsFile);
+	}
 
+	/**
+	 * Prints warnings caused by parsing the given section.
+	 * @param section given section.
+	 */
+	private void printWarnings(Section section) {
+		for (Warning warning : section.getWarnings()) {
+			System.err.println(warning);
 		}
 	}
 
@@ -73,16 +72,18 @@ public class DirectoryProcessor {
 	 * @param sourceDirectory given directory.
 	 */
 	public void process(File sourceDirectory) {
-		if (!sourceDirectory.isDirectory()) {
-			//TODO: throw a massive exception
-		}
-		// retrieve sourcedir directory contents, keep only files.
+		// list sourcedir directory contents, keep only files.
 		File[] directoryContents = sourceDirectory.listFiles();
+		// filter contents and keep only files.
 		File[] files = Arrays.stream(directoryContents).filter(file -> file.isFile()).toArray(File[]::new);
 		for (Section section : sections) {
-			section.execute(files.clone());
+			printWarnings(section);
+			// execute the section on a clone of the listed files.
+			File[] processedFiles = section.execute(files.clone());
+			for (File file : processedFiles) {
+				System.out.println(file.toPath().getFileName());
+			}
 		}
-		//TODO: Get results from executing the section and store them.
 	}
 
 	/**
@@ -93,28 +94,50 @@ public class DirectoryProcessor {
 		System.err.println(String.format(ERROR_FORMAT, msg));
 	}
 
-	public static void main(String[] args) {
-		// validate given arguments.
+	/**
+	 * Validates given arguments.
+	 * @param args commandline arguments.
+	 * @return true iff arguments are valid.
+	 */
+	private static boolean validateInput(String[] args) {
+		// validate number of arguments
 		if (args.length != NUM_OF_ARGS) {
 			printError(INVALID_NUM_ARGS);
-			return;
+			return false;
 		}
 		File sourceDir = new File(args[SOURCEDIR_IDX]);
+		// validate sourcedir
 		if (!sourceDir.isDirectory()) {
 			printError(INVALID_SOURCEDIR);
-			return;
+			return false;
 		}
+		// validate commands file.
 		File commandsFile = new File(args[COMMANDSFILE_IDX]);
 		if (!commandsFile.isFile()) {
 			printError(INVALID_COMMANDS_PATH);
-			return;
+			return false;
 		} else if (!commandsFile.canRead()) {
 			printError(NO_READ_PERMISSION);
-			return;
+			return false;
 		}
-		// initialize processor and process sourceDir.
-		DirectoryProcessor processor = new DirectoryProcessor(commandsFile);
-		processor.process(sourceDir);
+		return true;
 	}
 
+	public static void main(String[] args) {
+		if (!validateInput(args)) {
+			// bad input, terminate program.
+			return;
+		}
+		File sourceDir = new File(args[SOURCEDIR_IDX]);
+		File commandsFile = new File(args[COMMANDSFILE_IDX]);
+		try {
+			// initialize processor and process sourceDir.
+			DirectoryProcessor processor = new DirectoryProcessor(commandsFile);
+			processor.process(sourceDir);
+		} catch (BadFormatException e) {
+			printError(e.getMessage());
+		} catch (IOException e) {
+			printError(e.getMessage());
+		}
+	}
 }
