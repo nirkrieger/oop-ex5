@@ -136,7 +136,7 @@ class SectionFactory {
 	 * Parses a commands file and returns an array of sections.
 	 * @param commandsFile given commands file.
 	 * @return an array of Sections.
-	 * @throws IOException
+	 * @throws IOException thrown when
 	 * @throws BadFormatException thrown when given a command file with a bad format.
 	 */
 	Section[] parse(File commandsFile) throws IOException, BadFormatException{

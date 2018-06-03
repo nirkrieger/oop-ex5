@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 
 /**
@@ -26,7 +27,7 @@ class Section {
 	/**
 	 * Parse time warnings.
 	 */
-	private LinkedHashSet<Warning> warnings;
+	private LinkedList<Warning> warnings;
 
 	/**
 	 * Generate a new Section object
@@ -34,7 +35,7 @@ class Section {
 	 * @param order given files order.
 	 * @param warnings found warnings.
 	 */
-	Section(FileFilter filter, Order order, LinkedHashSet<Warning> warnings) {
+	Section(FileFilter filter, Order order, LinkedList<Warning> warnings) {
 		this.filter = filter;
 		this.order = order;
 		this.warnings = warnings;
@@ -44,7 +45,7 @@ class Section {
 	 * Default constructor.
 	 */
 	Section() {
-		this(new AllFilter(), new AbsOrder(), new LinkedHashSet<>());
+		this(new AllFilter(), new AbsOrder(), new LinkedList<>());
 	}
 
 	/**
@@ -67,6 +68,7 @@ class Section {
 	 */
 	private File[] applyFilter(File[] files) {
 		// for each file, if filter accepts file add it to list.
+		//TODO: maybe change to directory.listFiles(section.filter) ? better looking but worse performance.
 		return Arrays.stream(files).filter(file -> filter.accept(file)).toArray(File[]::new);
 	}
 
@@ -86,7 +88,7 @@ class Section {
 	void setOrder(Order order) {
 		this.order = order;
 	}
-	LinkedHashSet<Warning> getWarnings() {
+	LinkedList<Warning> getWarnings() {
 		return warnings;
 	}
 
