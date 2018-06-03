@@ -20,14 +20,6 @@ class SectionFactory {
 	 */
 	private static final String ORDER = "ORDER";
 	/**
-	 * Missing FILTER prefix error message.
-	 */
-	private static final String NO_FILTER = "FILTER sub-section is missing";
-	/**
-	 * Missing ORDER prefix error message.
-	 */
-	private static final String NO_ORDER = "ORDER sub-section is missing";
-	/**
 	 * This flag indicates whether this is the first line in the file.
 	 */
 	private boolean firstLine;
@@ -87,7 +79,7 @@ class SectionFactory {
 			orderFound = true;
 		} else if (!orderFound) {
 			// this is order subsection but order is not found, throw exception.
-			throw new BadFormatException(NO_ORDER);
+			throw new MissingOrderException();
 		} else {
 			orderFound = false;
 			filterSubSection = true;
@@ -99,6 +91,7 @@ class SectionFactory {
 				catch (OrderFactoryException e) {
 					currentSection.addWarning(new Warning(lineNum));
 				}
+			} else {
 				parseFilterLine(line, lineNum);
 			}
 		}
@@ -112,7 +105,7 @@ class SectionFactory {
 	 * @param lineNum line number.
 	 * @throws BadFormatException
 	 */
-	private void parseFilterLine(String line, int lineNum) throws BadFormatException {
+	private void parseFilterLine(String line, int lineNum) throws MissingFilterException {
 		// handle filter subsection
 		if (line.equals(FILTER) && !filterFound) {
 			filterFound = true;
@@ -124,7 +117,7 @@ class SectionFactory {
 			}
 		}
 		else if (!filterFound) {
-			throw new BadFormatException(NO_FILTER);
+			throw new MissingFilterException();
 		} else {
 			filterSubSection = false;
 			filterFound = false;
@@ -162,10 +155,10 @@ class SectionFactory {
 			// do file closures - if ended with bad format or just need to add last section.
 			if (filterSubSection && filterFound) {
 				// in case file ended without supplied filter or order subsection.
-				throw new BadFormatException(NO_FILTER);
+				throw new MissingFilterException();
 			} else if (!filterSubSection && !orderFound) {
 				// in case file ended without order subsection.
-				throw new BadFormatException(NO_ORDER);
+				throw new MissingOrderException();
 			} else if (!firstLine){
 				sections.add(currentSection);
 			}
