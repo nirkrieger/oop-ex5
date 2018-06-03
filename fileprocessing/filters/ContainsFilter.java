@@ -2,16 +2,18 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class ContainsFilter implements java.io.FileFilter {
+public class ContainsFilter implements TitleFilters {
 
     /**the sequence that should be contained*/
     String seq;
+
 
     /**
      * This is the constructor
      * @param curSeq the sequence we currentky want to check
      */
-    ContainsFilter( String curSeq){
+    ContainsFilter( String curSeq)
+    {
         seq = curSeq;
     }/*TODO problem if char?*/
 
@@ -21,8 +23,6 @@ public class ContainsFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.getName().contains(seq))
-            return true;
-        return false;
+        return(pathname.getName().contains(seq));
     }
 }

@@ -2,7 +2,7 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class SmallerThanFilter implements java.io.FileFilter {
+public class SmallerThanFilter implements SizeFilters {
 
     /**This is the minimum of the filter*/
     double max;
@@ -20,8 +20,6 @@ public class SmallerThanFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (max < pathname.length())
-            return true;
-        return false;
+        return max < pathname.length();
     }
 }

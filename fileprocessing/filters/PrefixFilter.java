@@ -2,7 +2,7 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class PrefixFilter implements java.io.FileFilter {
+public class PrefixFilter implements TitleFilters {
 
     /** This is the sequence we are chaecking*/
     String seq;
@@ -22,8 +22,6 @@ public class PrefixFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-       if(pathname.getName().startsWith(seq))
-           return true;
-       return false;
+       return pathname.getName().startsWith(seq);
     }
 }

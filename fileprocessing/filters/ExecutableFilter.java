@@ -2,7 +2,8 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class ExecutableFilter implements java.io.FileFilter {
+public class ExecutableFilter implements BooleanFilters {
+
 
     /**This doeas the actual filtering
      * @param pathname the file
@@ -10,9 +11,7 @@ public class ExecutableFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.canExecute())
-            return true;
-        return false;
+        return pathname.canExecute();
     }
 
     }

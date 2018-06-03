@@ -2,7 +2,7 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class HiddenFilter implements java.io.FileFilter {
+public class HiddenFilter implements BooleanFilters {
 
     /**This doeas the actual filtering
      * @param pathname the file
@@ -10,8 +10,6 @@ public class HiddenFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.isHidden())
-            return true;
-        return false;
+        return pathname.isHidden();
     }
     }

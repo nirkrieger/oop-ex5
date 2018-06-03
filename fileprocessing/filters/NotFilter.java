@@ -1,13 +1,18 @@
 package fileprocessing.filters;
 
+import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 public class NotFilter implements java.io.FileFilter {
 
     /**This is the filter we are doing the oposite of*/
-    FileFilter filter;
+    java.io.FileFilter filter;
 
-    NotFilter (FileFilter fileFilter){
+    /**
+     * The cinstructor
+     * @param fileFilter a filter to do the oposite of
+     */
+    public NotFilter (java.io.FileFilter fileFilter){
         filter = fileFilter;
     }
 

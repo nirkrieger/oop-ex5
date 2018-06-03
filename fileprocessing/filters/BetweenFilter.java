@@ -1,6 +1,7 @@
 package fileprocessing.filters;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public class BetweenFilter implements java.io.FileFilter {
 
@@ -10,14 +11,18 @@ public class BetweenFilter implements java.io.FileFilter {
     /** The minimal threshold for a file threshold*/
     double min;
 
+    /**The filters pattern*/
+    public static final Pattern betweenPattern =  Pattern.compile("(\\w+)#(\\d)+#(\\d)+(#NOT)?");
+
+
     /**
      * This is the constructor
      * @param curMax max threshold
      * @param curMin minimum threshold
      */
     BetweenFilter(double curMax, double curMin){
-        max = curMax;
-        min = curMin;
+            max =  curMin;
+            min =  curMax;
     }
 
     /**This doeas the actual filtering

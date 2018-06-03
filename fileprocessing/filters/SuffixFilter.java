@@ -2,7 +2,7 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class SuffixFilter implements java.io.FileFilter  {
+public class SuffixFilter implements TitleFilters  {
 
     /** This is the sequence we are checking for*/
     String seq;
@@ -21,9 +21,7 @@ public class SuffixFilter implements java.io.FileFilter  {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.getName().endsWith(seq))
-            return true;
-        return false;
+        return pathname.getName().endsWith(seq);
     }
 
     }

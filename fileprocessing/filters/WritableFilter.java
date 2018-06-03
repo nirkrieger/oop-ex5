@@ -2,7 +2,7 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class WritableFilter implements java.io.FileFilter {
+public class WritableFilter implements BooleanFilters {
 
     /**This doeas the actual filtering
      * @param pathname the file
@@ -10,9 +10,7 @@ public class WritableFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.canWrite())
-            return true;
-        return false;
+        return pathname.canWrite();
     }
 
 

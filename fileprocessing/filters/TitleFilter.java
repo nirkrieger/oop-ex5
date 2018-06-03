@@ -2,15 +2,16 @@ package fileprocessing.filters;
 
 import java.io.File;
 
-public class FileFilter implements java.io.FileFilter {
+public class TitleFilter implements TitleFilters {
 
     /**This is the name we want to compare to*/
     String name;
 
+
     /** This is the constructor
      * @param curName the current files name
      */
-    FileFilter (String curName){
+    TitleFilter(String curName){
         name = curName;
     }
 
@@ -20,8 +21,6 @@ public class FileFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if (pathname.getName() == name)
-            return true;
-        return false;
+        return (pathname.getName() == name);
     }
 }
