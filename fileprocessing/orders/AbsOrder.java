@@ -10,19 +10,10 @@ import java.util.Comparator;
  */
 public class AbsOrder implements Order{
 	/**
-	 * Absolute path comparator.
+	 * Absolute path comparing function..
 	 */
-	static class AbsComparator implements Comparator<File>{
-		/**
-		 * compares files by absolute paths.
-		 * @param o1 first file
-		 * @param o2 second file
-		 * @return 1, 0 or -1 according to compare result.
-		 */
-		@Override
-		public int compare(File o1, File o2) {
-			return o1.getAbsolutePath().compareTo(o2.getAbsolutePath());
-		}
+	static int absCompare(File o1, File o2) {
+		return o1.getAbsolutePath().compareTo(o2.getAbsolutePath());
 	}
 
 	/**
@@ -31,6 +22,6 @@ public class AbsOrder implements Order{
 	 */
 	@Override
 	public void orderFiles(File[] files) {
-		Arrays.sort(files, new AbsComparator());
+		Arrays.sort(files, (o1, o2) -> absCompare(o1, o2));
 	}
 }
