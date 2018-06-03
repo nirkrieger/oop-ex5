@@ -30,7 +30,7 @@ public class Warning {
 	}
 
 	/**
-	 * @return Returns the hashcode of the lineNumber. used for hashing warnings.
+	 * @return Returns the hashcode of the line number. used for hashing warnings.
 	 */
 	@Override
 	public int hashCode() {
