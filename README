@@ -1,0 +1,121 @@
+nirkr
+mohr
+
+
+
+=============================
+=      File description     =
+=============================
+package filesprocessing:
+-   BadFormatException.java - represents a general CommandsFile bad format exception.
+-   MissingFilterException.java - represents a missing filter subsection exception.
+-   MissingOrderException.java - represents a missing order subsection exception.
+-   Warning.java - represents Type I errors.
+-   Section.java - represents a commands file section.
+-   SectionFactory.java - implements the Factory pattern for producing and parsing command files.
+-   DirectoryProcessor.java - represents a directory processor object.
+-   package filters:
+    -   AllFilter.java - TODO: Mohr Fill me please...
+    -   BetweenFilter.java - TODO: Mohr Fill me please...
+    -   BiggerThanFilter.java - TODO: Mohr Fill me please...
+    -   ContainsFilter.java - TODO: Mohr Fill me please...
+    -   ExecutableFilter.java - TODO: Mohr Fill me please...
+    -   FileFilter.java - TODO: Mohr Fill me please...
+    -   FilterFactoryException.java - TODO: Mohr Fill me please...
+    -   FiltersFactory.java - TODO: Mohr Fill me please...
+    -   HiddenFilter.java - TODO: Mohr Fill me please...
+    -   NotFilter.java - TODO: Mohr Fill me please...
+    -   PrefixFilter.java - TODO: Mohr Fill me please...
+    -   SmallerThanFilter.java - TODO: Mohr Fill me please...
+    -   SuffixFilter.java - TODO: Mohr Fill me please...
+    -   WritableFilter.java - TODO: Mohr Fill me please...
+-   package orders:
+    -   OrderFactoryException.java - Represents a general OrderFactory exception.
+    -   Order.java - Order interface demanding the implementatin of orderFiles method.
+    -   OrderFactory.java - implements the Factory pattern for parsing and producing order objects.
+    -   AbsOrder.java - Represents an absolute path order.
+    -   ReverseOrder.java - Represents a reverse order object, functions as a decorator.
+    -   SizeOrder.java - Represents a size order object.
+    -   TypeOrder.java - Represents a type order object.
+
+=============================
+=          Design           =
+=============================
+(1) Packages:
+More than the required filesprocessing package, we have decided to declare two more packages, filters and
+orders. Both packages are independent, operate at their own, and could have been easily imported from an out
+source package. These two incentives are enough for declaring both as sub-packages of the filesprocessing
+package.
+
+(2) Design Patterns:
+    (a) Factories - We chose using the Factory pattern for parsing the sections, filters and orders in the
+    commands file. The factory pattern enables each node in the chain of parsing to receive a "black box"
+    service from other classes/objects. DirectoryProcessor uses SectionFactory for parsing the commands file
+    into sections, and the SectionFactory uses FiltersFactory and OrdersFactory for parsing the filter/order
+    lines in the commands file into Order and Filter object eventually. In this case, when the calling object
+    does not care how parsing is done in the next level, the factory pattern comes in very handy.
+
+    (b) Open/Closed principle - All 3 packages are closed for changes, except for 2 particular places:
+    FiltersFactory and OrderFactory. Both generate a matching to input FileFilter and Order objects
+    respectively, which enables the generic use of those interfaces for parsing and executing command
+    sections further in other classes in the project. Thus extending the current Filter/Order table is done
+    easier.
+
+    (c) Modularity: The code is modular and built out of sub-packages and modules, all operate independently.
+    For example the Section object holds in composition relationship a filter object, an order object and a
+    list of warnings. Changes can be done to each of the seperate modules without effecting the code
+    structure.
+
+(3) Exceptions Hierarchy - There are 3 different Exception hierarchy "trees":
+    (a) BadFormatExceptions - Exceptions thrown while parsing the commands file and regard the
+    format/structure of the commands file:
+        (-) MissingFilterException - when a FILTER subsection is missing or corrupt.
+        (-) MissingOrderException - when an ORDER subsection is missing or corrupt.
+    (b) FilterFactoryExceptions - Exceptions thrown while matching a filter section line to a FileFilter
+    object. Since filters is an independent package, it should have its own exceptions, regardless to the
+    fact that those are very similar to orders package filters.
+        (-) TODO: put different exceptions here.
+    (c) OrderFactoryExceptions - Exceptions thrown while matching an order section line to an Order object.
+        (-) TODO: put different exceptions here.
+
+(4) More considerations:
+Even though DirectoryProcessor is run in the command line, we look at this package as a product, to be used
+in other Java projects. Therefore a DirectoryProcessor is initialized once per commands file, but can be run
+multiple times on different folders with only the sourceDir path given.
+
+
+=============================
+=  Implementation details   =
+=============================
+(1) DirectoryProcessor:
+Has to be the simplest object, since it's only purpose is to receive a commands file and process a directory.
+Therefore it has a Section (later described) array containing all the sections to be executed. It's only
+public method is DirectoryProcessor::process, which receives a directory and prints output according to given
+sections in the constructor.
+
+(2) SectionFactory:
+Parses the commands file and throws BadFormatExceptions. The Factory is not a static class, since while
+parsing we found it easier to maintain a state while reading the commands file lines. parse method returns an
+array of Sections. For later parsing the filter and order arguments, it calls respectively FilterFactory and
+OrderFactory.
+
+(3) Section:
+Represents a commands section in the commands file. Holding 3 data members: a FileFilter object, an Order
+object and a list of Warnings. We want all warnings to be printed while executing each section, and not after
+parsing. Thus we have found storing warning objects as the correct way to handle this.
+
+(4) Orders:
+Ordering (sorting) the files is done using Arrays.sort() function with lambda expressions. Each order
+defines a comparing method according to its strategy. AbsOrder's method is static, since when two objects are
+equal they need to be compared by absolute path. We used arrays as the data structures, found it easier to
+implement. ReverseOrder order is a decorator for other orders. It wraps an order, firstly calls the wrapped
+order orderFiles method, and then reverses the result.
+
+(5) Filters:
+TODO: Mohr, this is yours :)
+
+
+
+=============================
+=    Answers to questions   =
+=============================
