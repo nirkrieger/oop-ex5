@@ -62,13 +62,13 @@ class Section {
 	}
 
 	/**
-	 * Apply filter on processed files.
+	 * @param files given files
+	 * @return filtered files.
 	 */
-	File[] applyFilter(File[] files) {
+	private File[] applyFilter(File[] files) {
 		// for each file, if filter accepts file add it to list.
 		return Arrays.stream(files).filter(file -> filter.accept(file)).toArray(File[]::new);
 	}
-
 
 	/**
 	 * Sets section's filter.

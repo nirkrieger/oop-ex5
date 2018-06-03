@@ -5,9 +5,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Decorator for Order implementing objects. First orders the file according to given order, and then
+ * reverses the result.
+ */
 public class ReverseOrder implements Order {
-
+	/**
+	 * wrapped order.
+	 */
 	private Order wrappedOrder;
+
+	/**
+	 *
+	 * @param wrappedOrder
+	 */
 	public ReverseOrder(Order wrappedOrder) {
 		this.wrappedOrder = wrappedOrder;
 	}

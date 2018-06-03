@@ -83,16 +83,16 @@ class SectionFactory {
 		} else {
 			orderFound = false;
 			filterSubSection = true;
-			if (!line.equals(FILTER)) {
-				// FILTER could be found right after ORDER, make sure this is not the case.
+			if (line.equals(FILTER)) {
+				// FILTER could be found right after ORDER, if so call parseFilterLine with this line.
+				parseFilterLine(line, lineNum);
+			} else {
 				try {
 					currentSection.setOrder(OrderFactory.chooseOrder(line));
 				}
 				catch (OrderFactoryException e) {
 					currentSection.addWarning(new Warning(lineNum));
 				}
-			} else {
-				parseFilterLine(line, lineNum);
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package fileprocessing;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 
 /**
@@ -70,10 +71,14 @@ public class DirectoryProcessor {
 	/**
 	 * Processes files from given source directory according to commands file.
 	 * @param sourceDirectory given directory.
+	 * @throws NotDirectoryException in case of bad sourceDir name, not a directory or any other IO exception.
 	 */
-	public void process(File sourceDirectory) {
+	public void process(File sourceDirectory) throws NotDirectoryException{
 		// list sourcedir directory contents, keep only files.
 		File[] directoryContents = sourceDirectory.listFiles();
+		if (directoryContents == null) {
+			throw new NotDirectoryException(sourceDirectory.getAbsolutePath());
+		}
 		// filter contents and keep only files.
 		File[] files = Arrays.stream(directoryContents).filter(file -> file.isFile()).toArray(File[]::new);
 		for (Section section : sections) {
@@ -81,7 +86,7 @@ public class DirectoryProcessor {
 			// execute the section on a clone of the listed files.
 			File[] processedFiles = section.execute(files.clone());
 			for (File file : processedFiles) {
-				System.out.println(file.toPath().getFileName());
+				System.out.println(file.getName());
 			}
 		}
 	}

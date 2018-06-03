@@ -10,12 +10,12 @@ public class OrderTester {
 		}
 	}
 	public static void main(String[] args) {
-		File folder = new File("C:\\Users\\Nir\\OOP\\oop-ex5\\test");
+		File folder = new File("./test");
 		File[] content = folder.listFiles();
 		System.out.println("Before ");
 		printFileArray(content);
-		Order order = new ReverseOrder(new SizeOrder());
-//		SizeOrder order = new SizeOrder();
+//		Order order = new ReverseOrder(new TypeOrder());
+		Order order = new TypeOrder();
 		order.orderFiles(content);
 		System.out.println("After " );
 		printFileArray(content);

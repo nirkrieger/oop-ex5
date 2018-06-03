@@ -15,12 +15,12 @@ public class SizeOrder implements Order {
 	 * @return 1 iff o1.size > o2.size, if equal returns Abscompare of o1 and o2.
 	 */
 	private int sizeCompare(File o1, File o2) {
-		int res = Long.compare(o1.length(), o2.length());
-		if (res == 0) {
+		int result = Long.compare(o1.length(), o2.length());
+		if (result == 0) {
 			// if equal.
 			return AbsOrder.absCompare(o1, o2);
 		}
-		return res;
+		return result;
 	}
 
 	/**

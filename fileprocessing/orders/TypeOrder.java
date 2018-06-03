@@ -10,7 +10,7 @@ public class TypeOrder implements Order {
 	/**
 	 * Period delimiter.
 	 */
-	private static final String DELIM = "[.]";
+	private static final String DELIM = "\\.";
 	/**
 	 * Minimum size for a split filename with extension
 	 */
