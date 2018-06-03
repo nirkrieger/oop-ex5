@@ -16,16 +16,21 @@ public class ReverseOrder implements Order {
 	private Order wrappedOrder;
 
 	/**
-	 *
-	 * @param wrappedOrder
+	 * Default Constructor.
+	 * @param wrappedOrder order object to wrap.
 	 */
 	public ReverseOrder(Order wrappedOrder) {
 		this.wrappedOrder = wrappedOrder;
 	}
 
+	/**
+	 * First calls wrappedOrder.orderFiles, and later reverses the array.
+	 * @param files processed files.
+	 */
 	@Override
 	public void orderFiles(File[] files) {
 		wrappedOrder.orderFiles(files);
+		// Pretty stupid. cast to list, reverse with Collections and then cast back to array...
 		List<File> filesList = Arrays.asList(files);
 		Collections.reverse(filesList);
 		File[] reversed = new File[files.length];
