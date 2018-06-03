@@ -10,21 +10,22 @@ public class TypeOrder implements Order {
 	/**
 	 * Period delimiter.
 	 */
-	private static final String DELIM = "\\.";
+	private static final String DELIM = ".";
 	/**
 	 * Minimum size for a split filename with extension
 	 */
-	private static final int MIN_SIZE = 1;
+	private static final int MIN_INDEX = 0;
 
 	/**
 	 * @param file given file
 	 * @return returns file's extension. if none is present returns an empty string.
 	 */
 	private String getExtension(File file) {
-		String[] fileNameSplit = file.getName().split(DELIM);
 		String fileExt = "";
-		if (fileNameSplit.length > MIN_SIZE) {
-			fileExt = fileNameSplit[fileNameSplit.length - 1];
+		int lastPeriodIndex = file.getName().lastIndexOf(DELIM);
+		if (lastPeriodIndex > MIN_INDEX) {
+			// if file name starts with a period, get a substring from the second position.
+			fileExt = file.getName().substring(lastPeriodIndex + 1);
 		}
 		return fileExt;
 	}

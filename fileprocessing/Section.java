@@ -6,7 +6,7 @@ import fileprocessing.orders.Order;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 
 /**
@@ -26,7 +26,7 @@ class Section {
 	/**
 	 * Parse time warnings.
 	 */
-	private ArrayList<Warning> warnings;
+	private LinkedHashSet<Warning> warnings;
 
 	/**
 	 * Generate a new Section object
@@ -34,7 +34,7 @@ class Section {
 	 * @param order given files order.
 	 * @param warnings found warnings.
 	 */
-	Section(FileFilter filter, Order order, ArrayList<Warning> warnings) {
+	Section(FileFilter filter, Order order, LinkedHashSet<Warning> warnings) {
 		this.filter = filter;
 		this.order = order;
 		this.warnings = warnings;
@@ -44,7 +44,7 @@ class Section {
 	 * Default constructor.
 	 */
 	Section() {
-		this(new AllFilter(), new AbsOrder(), new ArrayList<>());
+		this(new AllFilter(), new AbsOrder(), new LinkedHashSet<>());
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Section {
 	void setOrder(Order order) {
 		this.order = order;
 	}
-	ArrayList<Warning> getWarnings() {
+	LinkedHashSet<Warning> getWarnings() {
 		return warnings;
 	}
 

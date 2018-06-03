@@ -1,9 +1,12 @@
 package fileprocessing;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * Directory processor manages directory operations.
@@ -25,7 +28,7 @@ public class DirectoryProcessor {
 	/**
 	 * Invalid num of args message.
 	 */
-	private static final String INVALID_NUM_ARGS = "Incorrect usage";
+	private static final String INVALID_USAGE = "Incorrect usage";
 	/**
 	 * Invalid sourcedir.
 	 */
@@ -99,50 +102,55 @@ public class DirectoryProcessor {
 		System.err.println(String.format(ERROR_FORMAT, msg));
 	}
 
+//	/**
+//	 * Validates given arguments.
+//	 * @param args commandline arguments.
+//	 * @return true iff arguments are valid.
+//	 */
 	/**
-	 * Validates given arguments.
-	 * @param args commandline arguments.
-	 * @return true iff arguments are valid.
-	 */
 	private static boolean validateInput(String[] args) {
 		// validate number of arguments
-		if (args.length != NUM_OF_ARGS) {
-			printError(INVALID_NUM_ARGS);
-			return false;
-		}
+
 		File sourceDir = new File(args[SOURCEDIR_IDX]);
 		// validate sourcedir
 		if (!sourceDir.isDirectory()) {
-			printError(INVALID_SOURCEDIR);
+			printError(new NotDirectoryException(sourceDir.getPath()).toString());
 			return false;
 		}
 		// validate commands file.
 		File commandsFile = new File(args[COMMANDSFILE_IDX]);
 		if (!commandsFile.isFile()) {
-			printError(INVALID_COMMANDS_PATH);
+			printError(new NoSuchFileException(commandsFile.getPath()).toString());
 			return false;
 		} else if (!commandsFile.canRead()) {
-			printError(NO_READ_PERMISSION);
+			printError();
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	public static void main(String[] args) {
-		if (!validateInput(args)) {
-			// bad input, terminate program.
-			return;
-		}
-		File sourceDir = new File(args[SOURCEDIR_IDX]);
-		File commandsFile = new File(args[COMMANDSFILE_IDX]);
 		try {
+			if (args.length != NUM_OF_ARGS) {
+				throw new IllegalArgumentException(INVALID_USAGE);
+			}
+			File sourceDir = new File(args[SOURCEDIR_IDX]);
+			File commandsFile = new File(args[COMMANDSFILE_IDX]);
 			// initialize processor and process sourceDir.
 			DirectoryProcessor processor = new DirectoryProcessor(commandsFile);
 			processor.process(sourceDir);
-		} catch (BadFormatException e) {
-			printError(e.getMessage());
-		} catch (IOException e) {
-			printError(e.getMessage());
+		}
+		catch (BadFormatException e) {
+			printError(e.toString());
+		}
+		catch (IllegalArgumentException|FileNotFoundException e) {
+			printError(INVALID_USAGE);
+		}
+		catch (AccessDeniedException e) {
+			printError(INVALID_SOURCEDIR);
+		}
+		catch (IOException e) {
+			printError(e.toString());
 		}
 	}
 }
