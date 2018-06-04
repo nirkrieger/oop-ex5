@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Comparator;
 
 /**
- * This class serves as an OrderFactory, choosing 
+ * This class serves as an OrderFactory, choosing
  */
 public class OrderFactory {
 	/**The char to split at*/

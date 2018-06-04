@@ -2,9 +2,12 @@ package filesprocessing;
 
 import filesprocessing.filters.AllFilter;
 import filesprocessing.orders.AbsComparator;
-import filesprocessing.orders.Order;
+import filesprocessing.orders.OrderFactory;
+
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -45,33 +48,26 @@ class Section {
 	 * Default constructor.
 	 */
 	Section() {
-		this(new AllFilter(), new AbsComparator(), new LinkedList<>());
+//		this(FilterFactory.getDefaultFilter(), OrderFactory.getDefaultComparator(), new LinkedList<>());
+		this(new AllFilter(), OrderFactory.getDefaultComparator(), new LinkedList<>());
+
 	}
 
 	/**
 	 * Executes the section's logic on given files. i.e, apply filter and order and return an array of File.
-	 * @param files given files to process.
-	 * @return filtered and ordered files.
+	 * @param sourceDirectory source directory.
+	 * @return array of filtered and ordered files.
 	 */
-	File[] execute(File[] files) {
-		// filter files
-		files = applyFilter(files);
+	File[] execute(File sourceDirectory) {
+		File[] files = sourceDirectory.listFiles(filter);
+		// keep only files.
+		files = Arrays.stream(files).filter(file -> file.isFile()).toArray(File[]::new);
 		// order files
 		Arrays.sort(files, order);
-//		this.order.orderFiles(files);
 		// return ordered and filtered files.
 		return files;
 	}
 
-	/**
-	 * @param files given files
-	 * @return filtered files.
-	 */
-	private File[] applyFilter(File[] files) {
-		// for each file, if filter accepts file add it to list.
-		//TODO: maybe change to directory.listFiles(section.filter) ? better looking but worse performance.
-		return Arrays.stream(files).filter(file -> filter.accept(file)).toArray(File[]::new);
-	}
 
 	/**
 	 * Sets section's filter.
