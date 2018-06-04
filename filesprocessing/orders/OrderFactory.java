@@ -2,9 +2,10 @@ package filesprocessing.orders;
 
 import java.io.File;
 import java.util.Comparator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+/**
+ * This class serves as an OrderFactory, choosing 
+ */
 public class OrderFactory {
 	/**The char to split at*/
 	private static final String POUND = "#";
@@ -16,42 +17,34 @@ public class OrderFactory {
 	private static final String REVERSE = "#REVERSE";
 
 	/**
+	 * @return returns the default comparator (ABS).
+	 */
+	public static Comparator<File> getDefaultComparator() {
+		return new AbsComparator();
+	}
+	/**
 	 * This is responsible for generating the right order
 	 * @param orderLine	the string given
 	 * @return the cirrect irder object
 	 * @throws OrderFactoryException
 	 */
 	public static Comparator<File> chooseOrder(String orderLine) throws OrderFactoryException {
-		Pattern pattern = Pattern.compile("([a-z])(#Reverse)?");
-		Matcher name = pattern.matcher(orderLine);
-//		String orderName = "";
-//		if (name.find())
-//			orderName = name.group(1);
-
-		String [] orderName = orderLine.split(POUND);
-		Comparator<File> currentComparator = null;
-		switch(orderName[0]){//checks the name of the filter
-			case "abs": {
-				currentComparator = new AbsComparator();
-				break;
-			}
-			case "size": {
-				currentComparator = new SizeComparator();
-				break;
-			}
-			case "type": {
-				currentComparator = new TypeComparator();
-				break;
-			}
-			default: {// if it doesn't match any name so it is invalid
-				throw new OrderNameException();
-			}
+		if (orderLine.isEmpty()) {
+			// in case string is emtpy.
+			throw new OrderNameException();
 		}
-		if (orderName.length > NO_REVERSE){//check for a reverse statment and reverse if needed
-			if (orderLine.endsWith(REVERSE))
-			currentComparator = new ReverseComparator(currentComparator);
-			else
+		String[] orderName = orderLine.split(POUND);
+		// get comparator from ordersMap
+		Comparator<File> currentComparator = AllOrders.ordersMap.get(orderName[0]);
+		if (currentComparator == null) {
+			throw new OrderNameException();
+		}
+		if (orderName.length > NO_REVERSE){ //check for a reverse statement and reverse if needed
+			if (orderLine.endsWith(REVERSE)) {
+				currentComparator = new ReverseComparator(currentComparator);
+			} else {
 				throw new OrderNameException();
+			}
 		}
 		return currentComparator;
 	}
