@@ -29,7 +29,7 @@ public class AllFilterMatcher implements FilterMatcher {
     @Override
     public FileFilter getFilter(String input) throws FilterFactoryExceptions {
         FileFilter currentFilter;
-        if (allMatch.group(1) != ALL)
+        if (!allMatch.group(1).equals(ALL))
             throw new FilterNameError();
         currentFilter = new AllFilter();
         if (allMatch.group(2) != null)

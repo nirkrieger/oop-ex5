@@ -32,8 +32,6 @@ public class BetweenFilter implements java.io.FileFilter {
     @Override
     public boolean accept(File pathname) {
         double length = pathname.length();
-        if ((length >= min )&& (length <= max))
-            return true;
-        return false;
+        return (length >= min) && (length <= max);
     }
 }

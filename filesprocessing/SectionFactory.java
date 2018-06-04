@@ -125,11 +125,7 @@ class SectionFactory {
 			try {
 				currentSection.setFilter(FiltersFactory.chooseFilter(line));
 			}
-			//TODO: dont forget to uncomment this.
-//			catch (FilterFactoryExceptions e) {
-//
-//			}
-			catch (Exception e) {
+			catch (FilterFactoryExceptions e) {
 				currentSection.addWarning(new Warning(lineNum));
 			}
 		}

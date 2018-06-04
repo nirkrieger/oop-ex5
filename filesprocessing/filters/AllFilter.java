@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class AllFilter implements FileFilter{
 
 	/**This is the all filter pattern*/
-	static Pattern allPattern = Pattern.compile("(\\w+)(#NOT)?");
+	static Pattern allPattern = Pattern.compile("(all)(#NOT)?");
 
 	/**
 	 * returns true for every input.

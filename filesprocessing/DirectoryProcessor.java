@@ -37,10 +37,6 @@ public class DirectoryProcessor {
 	 */
 	private static final String INVALID_COMMANDS_PATH = "Invalid path to commands file.";
 	/**
-	 * No reading permission
-	 */
-	private static final String NO_READ_PERMISSION = "Commands file has no reading permission.";
-	/**
 	 * error format
 	 */
 	private static final String ERROR_FORMAT = "ERROR: %s\n";
@@ -73,20 +69,12 @@ public class DirectoryProcessor {
 	/**
 	 * Processes files from given source directory according to commands file.
 	 * @param sourceDirectory given directory.
-	 * @throws NotDirectoryException in case of bad sourceDir name, not a directory or any other IO exception.
 	 */
-	public void process(File sourceDirectory) throws NotDirectoryException{
-		// list sourcedir directory contents, keep only files.
-		File[] directoryContents = sourceDirectory.listFiles();
-		if (directoryContents == null) {
-			throw new NotDirectoryException(sourceDirectory.getAbsolutePath());
-		}
-		// filter contents and keep only files.
-		File[] files = Arrays.stream(directoryContents).filter(file -> file.isFile()).toArray(File[]::new);
+	public void process(File sourceDirectory){
 		for (Section section : sections) {
 			printWarnings(section);
 			// execute the section on a clone of the listed files.
-			File[] processedFiles = section.execute(files.clone());
+			File[] processedFiles = section.execute(sourceDirectory);
 			for (File file : processedFiles) {
 				System.out.println(file.getName());
 			}

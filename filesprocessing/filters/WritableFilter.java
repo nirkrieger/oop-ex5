@@ -12,6 +12,4 @@ public class WritableFilter implements BooleanFilters {
     public boolean accept(File pathname) {
         return pathname.canWrite();
     }
-
-
-    }
+}

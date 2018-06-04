@@ -21,6 +21,6 @@ public class TitleFilter implements TitleFilters {
      */
     @Override
     public boolean accept(File pathname) {
-        return (pathname.getName() == name);
+        return pathname.getName().equals(name);
     }
 }

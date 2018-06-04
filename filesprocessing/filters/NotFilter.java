@@ -21,9 +21,6 @@ public class NotFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        if(!filter.accept(pathname))
-            return true;
-        return false;
+        return !filter.accept(pathname);
     }
-
-    }
+}

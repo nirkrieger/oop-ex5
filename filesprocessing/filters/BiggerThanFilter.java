@@ -14,7 +14,7 @@ public class BiggerThanFilter implements SizeFilters {
         minimum = curMax;
     }
 
-    /**Tis does the actual filtering
+    /**This does the actual filtering
       * @param pathname the file we are checking
      * @return true if it is bigger than threshold and false otherwise
      */
