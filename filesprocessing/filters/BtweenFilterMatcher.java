@@ -6,6 +6,12 @@ import java.util.regex.Matcher;
 public class BtweenFilterMatcher implements FilterMatcher {
     /** represents between filter*/
     private static final String BETWEEN = "between";
+    /** represents the name */
+    private static final int NAME = 1;
+    /** represents the first parameter*/
+    private static final int FIRST_PARAMETER = 2;
+    /**represents the Not paraneter*/
+    private static final int NOT = 3;
 
     /**This is the matcher data member*/
     Matcher betweenMatcher;

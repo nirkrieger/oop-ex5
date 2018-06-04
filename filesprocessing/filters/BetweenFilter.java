@@ -11,8 +11,12 @@ public class BetweenFilter implements java.io.FileFilter {
     /** The minimal threshold for a file threshold*/
     double min;
 
+
+    /**This is the conversion to kb*/
+    private static final int CONVERT = 1024;
+
     /**The filters pattern*/
-    public static final Pattern betweenPattern =  Pattern.compile("(\\w+)#(\\d)+#(\\d)+(#NOT)?");
+    public static final Pattern betweenPattern =  Pattern.compile("(between)#(\\d)+#(\\d)+(#NOT)?");
 
 
     /**
@@ -31,7 +35,7 @@ public class BetweenFilter implements java.io.FileFilter {
      */
     @Override
     public boolean accept(File pathname) {
-        double length = pathname.length();
+        double length = pathname.length()/CONVERT;
         return (length >= min) && (length <= max);
     }
 }

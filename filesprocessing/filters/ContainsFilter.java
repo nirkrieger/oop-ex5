@@ -15,7 +15,7 @@ public class ContainsFilter implements TitleFilters {
     ContainsFilter( String curSeq)
     {
         seq = curSeq;
-    }/*TODO problem if char?*/
+    }
 
     /**This doeas the actual filtering
      * @param pathname the file

@@ -13,6 +13,12 @@ public class TitleFilterMatcher implements FilterMatcher {
     private static final String CONTAINS = "contains";
     /** represents the title filter*/
     private static  final String TITLE = "file";
+    /** represents the name */
+    private static final int NAME = 1;
+    /** represents the first parameter*/
+    private static final int FIRST_PARAMETER = 2;
+    /**represents the Not paraneter*/
+    private static final int NOT = 3;
 
     /**This is the matchers data member*/
     Matcher titleMatch;
@@ -34,8 +40,8 @@ public class TitleFilterMatcher implements FilterMatcher {
      */
     @Override
     public FileFilter getFilter(String input) throws FilterFactoryExceptions {
-        String name = titleMatch.group(1);
-        String seq = titleMatch.group(2);
+        String name = titleMatch.group(NAME);
+        String seq = titleMatch.group(FIRST_PARAMETER);
         FileFilter currentFilter;
             switch (name) {
                 case PREFFIX: {
@@ -56,7 +62,7 @@ public class TitleFilterMatcher implements FilterMatcher {
                 default:
                     throw new FilterNameError();
             }
-            if (titleMatch.group(3) != null)
+            if (titleMatch.group(NOT) != null)
                 return new NotFilter(currentFilter);
             return currentFilter;
         }

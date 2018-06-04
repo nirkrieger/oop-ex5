@@ -7,12 +7,13 @@ public class BiggerThanFilter implements SizeFilters {
     /** This is the minimum threshold*/
     double minimum;
 
+    /**This is the conversion to kb*/
+    private static final int CONVERT = 1024;
+
     /**This is the constructor
      * @param curMax the threshold
      */
-    BiggerThanFilter (double curMax){
-        minimum = curMax;
-    }
+    BiggerThanFilter (double curMax){ (minimum) = curMax/CONVERT; }
 
     /**This does the actual filtering
       * @param pathname the file we are checking

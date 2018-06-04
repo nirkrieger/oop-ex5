@@ -5,8 +5,6 @@ import java.io.FileFilter;
 
 public class FiltersFactory {
 
-    /**This are all the possible matchers*/
-    AllMatchers matchers = new AllMatchers();
 
     /**
      * This is the factory for generating the filters
@@ -20,7 +18,7 @@ public class FiltersFactory {
          if (f.matches(input)) {
              filter = f.getFilter(input);
              if (filter != null)
-                break;
+                return filter;
          }
      }
      if (filter == null) {

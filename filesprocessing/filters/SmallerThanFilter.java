@@ -7,11 +7,14 @@ public class SmallerThanFilter implements SizeFilters {
     /**This is the minimum of the filter*/
     double max;
 
+    /**This is the conversion to kb*/
+    private static final int CONVERT = 1024;
+
     /**This is the constructor
      * @param curMinimum recieves the minimum factor that it filters by
      */
     SmallerThanFilter (double curMinimum){
-        max = curMinimum;
+        max = curMinimum/CONVERT;
     }
 
     /**This is the method that actually filters
