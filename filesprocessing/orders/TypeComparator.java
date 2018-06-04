@@ -2,11 +2,12 @@ package filesprocessing.orders;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Order by type.
  */
-public class TypeOrder implements Order {
+public class TypeComparator implements Comparator<File> {
 	/**
 	 * Period delimiter.
 	 */
@@ -29,28 +30,18 @@ public class TypeOrder implements Order {
 		}
 		return fileExt;
 	}
-
 	/**
 	 * compares two files by type.
 	 * @param o1 first file.
 	 * @param o2 second file.
 	 * @return 1 iff o1.size > o2.size, if equal returns Abscompare of o1 and o2.
 	 */
-	private int compareType(File o1, File o2) {
+	@Override
+	public int compare(File o1, File o2) {
 		int res = getExtension(o1).compareTo(getExtension(o2));
 		if (res == 0) {
-			return AbsOrder.absCompare(o1, o2);
+			return new AbsComparator().compare(o1, o2);
 		}
 		return res;
-
-	}
-	/**
-	 * Orders the given files by the implementing strategy.
-	 *
-	 * @param files processed files.
-	 */
-	@Override
-	public void orderFiles(File[] files) {
-		Arrays.sort(files, (o1, o2) -> compareType(o1, o2));
 	}
 }

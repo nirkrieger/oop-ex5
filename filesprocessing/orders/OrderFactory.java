@@ -1,5 +1,7 @@
 package filesprocessing.orders;
 
+import java.io.File;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +21,7 @@ public class OrderFactory {
 	 * @return the cirrect irder object
 	 * @throws OrderFactoryException
 	 */
-	public static Order chooseOrder(String orderLine) throws OrderFactoryException {
+	public static Comparator<File> chooseOrder(String orderLine) throws OrderFactoryException {
 		Pattern pattern = Pattern.compile("([a-z])(#Reverse)?");
 		Matcher name = pattern.matcher(orderLine);
 //		String orderName = "";
@@ -27,18 +29,18 @@ public class OrderFactory {
 //			orderName = name.group(1);
 
 		String [] orderName = orderLine.split(POUND);
-		Order currentOrder = null;
+		Comparator<File> currentComparator = null;
 		switch(orderName[0]){//checks the name of the filter
 			case "abs": {
-				currentOrder = new AbsOrder();
+				currentComparator = new AbsComparator();
 				break;
 			}
 			case "size": {
-				currentOrder = new SizeOrder();
+				currentComparator = new SizeComparator();
 				break;
 			}
 			case "type": {
-				currentOrder = new TypeOrder();
+				currentComparator = new TypeComparator();
 				break;
 			}
 			default: {// if it doesn't match any name so it is invalid
@@ -47,10 +49,10 @@ public class OrderFactory {
 		}
 		if (orderName.length > NO_REVERSE){//check for a reverse statment and reverse if needed
 			if (orderLine.endsWith(REVERSE))
-			currentOrder = new ReverseOrder(currentOrder);
+			currentComparator = new ReverseComparator(currentComparator);
 			else
 				throw new OrderNameException();
 		}
-		return currentOrder;
+		return currentComparator;
 	}
 }

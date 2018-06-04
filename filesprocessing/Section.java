@@ -1,11 +1,12 @@
 package filesprocessing;
 
 import filesprocessing.filters.AllFilter;
-import filesprocessing.orders.AbsOrder;
+import filesprocessing.orders.AbsComparator;
 import filesprocessing.orders.Order;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 
@@ -21,7 +22,7 @@ class Section {
 	/**
 	 * Section order
 	 */
-	private Order order;
+	private Comparator<File> order;
 
 	/**
 	 * Parse time warnings.
@@ -34,7 +35,7 @@ class Section {
 	 * @param order given files order.
 	 * @param warnings found warnings.
 	 */
-	Section(FileFilter filter, Order order, LinkedList<Warning> warnings) {
+	Section(FileFilter filter, Comparator<File> order, LinkedList<Warning> warnings) {
 		this.filter = filter;
 		this.order = order;
 		this.warnings = warnings;
@@ -44,7 +45,7 @@ class Section {
 	 * Default constructor.
 	 */
 	Section() {
-		this(new AllFilter(), new AbsOrder(), new LinkedList<>());
+		this(new AllFilter(), new AbsComparator(), new LinkedList<>());
 	}
 
 	/**
@@ -56,7 +57,8 @@ class Section {
 		// filter files
 		files = applyFilter(files);
 		// order files
-		this.order.orderFiles(files);
+		Arrays.sort(files, order);
+//		this.order.orderFiles(files);
 		// return ordered and filtered files.
 		return files;
 	}
@@ -84,7 +86,7 @@ class Section {
 	 * Sets section's order
 	 * @param order given order
 	 */
-	void setOrder(Order order) {
+	void setOrder(Comparator<File> order) {
 		this.order = order;
 	}
 	LinkedList<Warning> getWarnings() {

@@ -1,6 +1,8 @@
 package filesprocessing.orders;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class OrderTester {
 
@@ -14,9 +16,9 @@ public class OrderTester {
 		File[] content = folder.listFiles();
 		System.out.println("Before ");
 		printFileArray(content);
-//		Order order = new ReverseOrder(new TypeOrder());
-		Order order = new TypeOrder();
-		order.orderFiles(content);
+		Comparator<File> order = new ReverseComparator(new TypeComparator());
+//		Comparator<File> order = new TypeComparator();
+		Arrays.sort(content, order);
 		System.out.println("After " );
 		printFileArray(content);
 
