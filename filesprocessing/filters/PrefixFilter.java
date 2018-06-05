@@ -2,26 +2,24 @@ package filesprocessing.filters;
 
 import java.io.File;
 
-public class PrefixFilter implements TitleFilters {
-
-    /** This is the sequence we are checking*/
-    String seq;
-
+/**
+ * Represents a prefix filter.
+ */
+public class PrefixFilter extends TitleFilter {
     /**
-     * This is the constroctur
-     * @param prefix the prefox thos filter checks
+     * Constructor.
+     * @param seq sequence to filter by.
      */
-    PrefixFilter (String prefix){
-        seq = prefix;
+    public PrefixFilter(String seq) {
+        super(seq);
     }
 
-
-    /**This doeas the actual filtering
+    /** filters the given file.
      * @param pathname the file
      * @return true if the file passes the filter, false otherwise
      */
     @Override
     public boolean accept(File pathname) {
-       return pathname.getName().startsWith(seq);
+       return pathname.getName().startsWith(getSeq());
     }
 }

@@ -76,7 +76,7 @@ class SectionFactory {
 	private void parseOrderLine(String line, int lineNum) throws BadFormatException {
 
 		// handle order sub section:
-		if (line.equals(ORDER)) {
+		if (line.equals(ORDER) && !orderFound) {
 			orderFound = true;
 		} else if (!orderFound) {
 			// this is order subsection but order is not found, throw exception.
@@ -143,7 +143,7 @@ class SectionFactory {
 		reset();
 		try (LineNumberReader reader = new LineNumberReader(new FileReader(commandsFile))) {
 			String line;
-			int lineNums = countLines(commandsFile);
+//			int lineNums = countLines(commandsFile);
 			// read lines from commands file
 			while ((line = reader.readLine()) != null) {
 				if (filterSubSection) {

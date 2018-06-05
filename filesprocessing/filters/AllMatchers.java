@@ -1,11 +1,14 @@
 package filesprocessing.filters;
 
-import filesprocessing.BooleanFiltersMatcher;
-
 public class AllMatchers {
-    /**This an array with all the matchers*/
-    public static FilterMatcher [] matcher = {new SizeFilterMatcher(), new BooleanFiltersMatcher(),
-            new TitleFilterMatcher(), new AllFilterMatcher()};
-
-
+	/**
+	 * This an array with all the matchers
+	 */
+	public static FilterMatcher[] matcher = {
+			new AllFilterMatcher(),
+			new SizeFilterMatcher(),
+			new BetweenFilterMatcher(),
+			new BooleanFiltersMatcher(),
+			new TitleFilterMatcher(),
+	};
 }

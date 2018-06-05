@@ -16,13 +16,17 @@ public class FiltersFactory {
      FileFilter filter = null;
      for (FilterMatcher f : AllMatchers.matcher) {
          if (f.matches(input)) {
-             filter = f.getFilter(input);
-             if (filter != null)
-                return filter;
+             try {
+                 filter = f.getFilter(input);
+                 if (filter != null)
+                     return filter;
+             } catch (FilterNameError e) {
+             	continue;
+			 }
          }
      }
      if (filter == null) {
-         throw new FilterFactoryException();
+         throw new NoMatchingFilterException();
      }
      return filter;
     }

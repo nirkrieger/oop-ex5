@@ -2,7 +2,15 @@ package filesprocessing.filters;
 
 import java.io.File;
 
-public class HiddenFilter implements BooleanFilters {
+public class HiddenFilter extends BooleanFilter {
+
+	/**
+	 * Constructor
+	 * @param flag boolean value.
+	 */
+    public HiddenFilter(boolean flag) {
+        super(flag);
+    }
 
     /**This doeas the actual filtering
      * @param pathname the file
@@ -10,6 +18,6 @@ public class HiddenFilter implements BooleanFilters {
      */
     @Override
     public boolean accept(File pathname) {
-        return pathname.isHidden();
+        return logicalNotXor(super.accept(pathname),pathname.isHidden());
     }
     }

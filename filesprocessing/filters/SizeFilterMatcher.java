@@ -24,7 +24,7 @@ public class SizeFilterMatcher implements FilterMatcher {
      */
     @Override
     public boolean matches(String input) {
-        sizeMatch = SizeFilters.sizePattern.matcher(input);
+        sizeMatch = SizeFilter.sizePattern.matcher(input);
         return sizeMatch.matches();
     }
 

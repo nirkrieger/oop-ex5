@@ -1,31 +1,27 @@
 package filesprocessing.filters;
 
-import java.io.File;
+import java.io.FileFilter;
+import java.util.regex.Pattern;
 
-public class TitleFilter implements TitleFilters {
+public abstract class TitleFilter implements FileFilter{
 
+    /**This is the filters pattern*/
+    static Pattern titlePattern = Pattern.compile("([\\w\\./\\-]+)#([\\w\\./\\- ]+)(#NOT)?");
+
+	/** This is the sequence we are checking for*/
+	private String seq;
 	/**
-	 * This is the name we want to compare to
+	 * Constructor.
+	 * @param seq sequence to filter by.
 	 */
-	String name;
-
-	/**
-	 * This is the constructor
-	 *
-	 * @param curName the current files name
-	 */
-	TitleFilter(String curName) {
-		name = curName;
+	public TitleFilter(String seq) {
+		this.seq = seq;
 	}
 
 	/**
-	 * This doeas the actual filtering
-	 *
-	 * @param pathname the file
-	 * @return true if the file passes the filter, false otherwise
+	 * @return filter's sequence.
 	 */
-	@Override
-	public boolean accept(File pathname) {
-		return pathname.getName().equals(name);
+	public String getSeq() {
+		return seq;
 	}
 }

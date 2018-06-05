@@ -2,27 +2,22 @@ package filesprocessing.filters;
 
 import java.io.File;
 
-public class ContainsFilter implements TitleFilters {
-
-    /**the sequence that should be contained*/
-    String seq;
-
+public class ContainsFilter extends TitleFilter {
 
     /**
-     * This is the constructor
-     * @param curSeq the sequence we currentky want to check
+     * Constructor.
+     * @param seq the sequence to check if contained.
      */
-    ContainsFilter( String curSeq)
-    {
-        seq = curSeq;
+    public ContainsFilter(String seq) {
+        super(seq);
     }
 
-    /**This doeas the actual filtering
+    /**Filters file if pathname is sequence is contained in pathname.
      * @param pathname the file
      * @return true if the file passes the filter, false otherwise
      */
     @Override
     public boolean accept(File pathname) {
-        return(pathname.getName().contains(seq));
+        return(pathname.getName().contains(getSeq()));
     }
 }

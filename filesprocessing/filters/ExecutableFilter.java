@@ -2,16 +2,25 @@ package filesprocessing.filters;
 
 import java.io.File;
 
-public class ExecutableFilter implements BooleanFilters {
+public class ExecutableFilter extends BooleanFilter {
+	/**
+	 * constructor.
+	 *
+	 * @param flag boolean value.
+	 */
+	public ExecutableFilter(boolean flag) {
+		super(flag);
+	}
 
+	/**
+	 * This doeas the actual filtering
+	 *
+	 * @param pathname the file
+	 * @return true if the file passes the filter, false otherwise
+	 */
+	@Override
+	public boolean accept(File pathname) {
+		return logicalNotXor(super.accept(pathname), pathname.canExecute());
+	}
 
-    /**This doeas the actual filtering
-     * @param pathname the file
-     * @return true if the file passes the filter, false otherwise
-     */
-    @Override
-    public boolean accept(File pathname) {
-        return pathname.canExecute();
-    }
-
-    }
+}

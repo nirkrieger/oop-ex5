@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 public class TitleFilterMatcher implements FilterMatcher {
 
     /** represents prefix filter*/
-    private static final String PREFFIX = "preffix";
+    private static final String PREFIX = "prefix";
     /** represents suffix filter*/
     private static final String SUFFIX = "suffix";
     /** represents contains filter*/
@@ -29,7 +29,7 @@ public class TitleFilterMatcher implements FilterMatcher {
      */
     @Override
     public boolean matches(String input) {
-        titleMatch = TitleFilters.titlePattern.matcher(input);
+        titleMatch = TitleFilter.titlePattern.matcher(input);
         return titleMatch.matches();
     }
 
@@ -45,7 +45,7 @@ public class TitleFilterMatcher implements FilterMatcher {
         String seq = titleMatch.group(FIRST_PARAMETER);
         FileFilter currentFilter;
             switch (name) {
-                case PREFFIX: {
+                case PREFIX: {
                     currentFilter = new PrefixFilter(seq);
                     break;
                 }
@@ -58,7 +58,8 @@ public class TitleFilterMatcher implements FilterMatcher {
                     break;
                 }
                 case TITLE:{
-                    currentFilter = new TitleFilter(seq);
+                    currentFilter = new FileNameFilter(seq);
+                    break;
                 }
                 default:
                     throw new FilterNameError();

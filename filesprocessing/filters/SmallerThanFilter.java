@@ -2,25 +2,20 @@ package filesprocessing.filters;
 
 import java.io.File;
 
-public class SmallerThanFilter implements SizeFilters {
+public class SmallerThanFilter extends SizeFilter {
 
 	/**
 	 * This is the minimum of the filter
 	 */
-	double max;
-
-	/**
-	 * This is the conversion to kb
-	 */
-	private static final double CONVERT = 1024;
+	private double threshold;
 
 	/**
 	 * This is the constructor
 	 *
-	 * @param curMinimum recieves the minimum factor that it filters by
+	 * @param threshold recieves the minimum factor that it filters by
 	 */
-	SmallerThanFilter(double curMinimum) {
-		max = curMinimum / CONVERT;
+	SmallerThanFilter(double threshold) {
+		this.threshold = threshold;
 	}
 
 	/**
@@ -31,6 +26,6 @@ public class SmallerThanFilter implements SizeFilters {
 	 */
 	@Override
 	public boolean accept(File pathname) {
-		return max < pathname.length();
+		return toKb(pathname.length()) < threshold;
 	}
 }
