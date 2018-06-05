@@ -34,7 +34,7 @@ public class SizeFilterMatcher implements FilterMatcher {
      * @throws FilterNameError
      */
     @Override
-    public FileFilter getFilter(String input) throws FilterFactoryExceptions {
+    public FileFilter getFilter(String input) throws FilterFactoryException {
         String name = sizeMatch.group(NAME);
         FileFilter currentFilter;
         try {

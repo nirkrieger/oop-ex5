@@ -14,7 +14,7 @@ public interface FilterMatcher {
      * This is a method that returns the right filter
      * @param input the string with the filters name and arguments
      * @return the new filter if valid
-     * @throws FilterFactoryExceptions
+     * @throws FilterFactoryException
      */
-    FileFilter getFilter (String input) throws FilterFactoryExceptions ;
+    FileFilter getFilter (String input) throws FilterFactoryException;
 }

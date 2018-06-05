@@ -5,7 +5,9 @@ import java.util.regex.Pattern;
 
 interface SizeFilters extends FileFilter {
 
-    /**This is the filters pattern*/
-    Pattern sizePattern = Pattern.compile("(\\w+)#(\\d)+(#NOT)?");
+	/**
+	 * This is the filters pattern
+	 */
+	Pattern sizePattern = Pattern.compile("([\\w\\./\\-]+)#(\\d+)(#NOT)?");
 
 }

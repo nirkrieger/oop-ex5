@@ -32,7 +32,7 @@ public class BooleanFiltersMatcher implements FilterMatcher{
      * @throws FilterNameError
      */
     @Override
-    public FileFilter getFilter(String input) throws FilterFactoryExceptions {
+    public FileFilter getFilter(String input) throws FilterFactoryException {
        String name = boolMatch.group(1);
        FileFilter currentFilter;
        if ((boolMatch.group(2)!= YES)&&(boolMatch.group(2)!= YES))

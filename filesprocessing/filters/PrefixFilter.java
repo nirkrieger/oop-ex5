@@ -4,7 +4,7 @@ import java.io.File;
 
 public class PrefixFilter implements TitleFilters {
 
-    /** This is the sequence we are chaecking*/
+    /** This is the sequence we are checking*/
     String seq;
 
     /**

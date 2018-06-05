@@ -38,8 +38,9 @@ public class TitleFilterMatcher implements FilterMatcher {
      * @return  new filter if name is valid
      * @throws FilterNameError
      */
+    //TODO: Document this.
     @Override
-    public FileFilter getFilter(String input) throws FilterFactoryExceptions {
+    public FileFilter getFilter(String input) throws FilterFactoryException {
         String name = titleMatch.group(NAME);
         String seq = titleMatch.group(FIRST_PARAMETER);
         FileFilter currentFilter;

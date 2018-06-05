@@ -1,7 +1,8 @@
 package filesprocessing.filters;
 
-public class FilterArgumentsError extends FilterFactoryExceptions{
-    private static final long serialVersionUID = 1L;
-
-    public FilterArgumentsError(){ };
+/**
+ * Represents an illegal filter arguments exception.
+ */
+public class FilterArgumentsError extends FilterFactoryException {
+	private static final long serialVersionUID = 1L;
 }

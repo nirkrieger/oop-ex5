@@ -1,17 +1,19 @@
 package filesprocessing.filters;
 
 import java.io.File;
+import java.io.FileFilter;
 
-public class NotFilter implements java.io.FileFilter {
+
+public class NotFilter implements FileFilter {
 
     /**This is the filter we are doing the oposite of*/
-    java.io.FileFilter filter;
+    FileFilter filter;
 
     /**
-     * The cinstructor
+     * The constructor
      * @param fileFilter a filter to do the oposite of
      */
-    public NotFilter (java.io.FileFilter fileFilter){
+    public NotFilter (FileFilter fileFilter){
         filter = fileFilter;
     }
 

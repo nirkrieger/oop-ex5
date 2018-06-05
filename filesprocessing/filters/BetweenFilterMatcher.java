@@ -3,7 +3,7 @@ package filesprocessing.filters;
 import java.io.FileFilter;
 import java.util.regex.Matcher;
 
-public class BtweenFilterMatcher implements FilterMatcher {
+public class BetweenFilterMatcher implements FilterMatcher {
     /** represents between filter*/
     private static final String BETWEEN = "between";
     /** represents the name */
@@ -32,7 +32,7 @@ public class BtweenFilterMatcher implements FilterMatcher {
      * @throws MinBiggerThanMaxException
      */
     @Override
-    public FileFilter getFilter(String input) throws FilterFactoryExceptions {
+    public FileFilter getFilter(String input) throws FilterFactoryException {
         double minimum = Double.parseDouble(betweenMatcher.group(2));
         double max = Double.parseDouble(betweenMatcher.group(2));
             if(minimum >= max)

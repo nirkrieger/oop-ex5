@@ -27,9 +27,9 @@ public class AllFilterMatcher implements FilterMatcher {
      * @throws MinBiggerThanMaxException
      */
     @Override
-    public FileFilter getFilter(String input) throws FilterFactoryExceptions {
+    public FileFilter getFilter(String input) throws FilterFactoryException {
         FileFilter currentFilter;
-        if (!allMatch.group(1).equals(ALL))
+        if (!allMatch.group(1).equals(ALL)) // TODO: do we really need this?
             throw new FilterNameError();
         currentFilter = new AllFilter();
         if (allMatch.group(2) != null)

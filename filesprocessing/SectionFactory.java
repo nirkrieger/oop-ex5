@@ -1,6 +1,6 @@
 package filesprocessing;
 
-import filesprocessing.filters.FilterFactoryExceptions;
+import filesprocessing.filters.FilterFactoryException;
 import filesprocessing.filters.FiltersFactory;
 import filesprocessing.orders.OrderFactory;
 import filesprocessing.orders.OrderFactoryException;
@@ -125,7 +125,7 @@ class SectionFactory {
 			try {
 				currentSection.setFilter(FiltersFactory.chooseFilter(line));
 			}
-			catch (FilterFactoryExceptions e) {
+			catch (FilterFactoryException e) {
 				currentSection.addWarning(new Warning(lineNum));
 			}
 		}

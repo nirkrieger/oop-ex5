@@ -6,5 +6,5 @@ import java.util.regex.Pattern;
 public interface BooleanFilters extends FileFilter{
 
     /**This is the pattern for these filters*/
-    Pattern boolPattern = Pattern.compile("(\\w+)#(Yes|No)(#NOT)?");
+    Pattern boolPattern = Pattern.compile("([\\w\\./\\-]+)#(Yes|No)(#NOT)?");
 }

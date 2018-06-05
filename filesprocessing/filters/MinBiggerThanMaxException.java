@@ -1,9 +1,8 @@
 package filesprocessing.filters;
 
-public class MinBiggerThanMaxException extends FilterFactoryExceptions{
-    private static final long serialVersionUID = 1L;
-
-    public MinBiggerThanMaxException(){ };
-
-
+/**
+ * Represents an exception thrown when min parameter is greater than max.
+ */
+public class MinBiggerThanMaxException extends FilterFactoryException {
+	private static final long serialVersionUID = 1L;
 }
