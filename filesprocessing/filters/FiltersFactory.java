@@ -26,7 +26,7 @@ public class FiltersFactory {
          }
      }
      if (filter == null) {
-         throw new NoMatchingFilterException();
+         throw new FilterNameError();
      }
      return filter;
     }

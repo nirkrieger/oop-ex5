@@ -12,7 +12,7 @@ public class AllFilterMatcher implements FilterMatcher {
 	/**
 	 * This is the all filter pattern
 	 */
-	private Pattern allPattern = Pattern.compile("all(#NOT)?");
+	private Pattern allPattern = Pattern.compile("all" + notPattern);
 
 	/**
 	 * Not group.

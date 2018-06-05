@@ -45,7 +45,7 @@ public class BooleanFiltersMatcher implements FilterMatcher {
 	private static final int NOT = 3;
 
 	/**This is the pattern for these filters*/
-	private static Pattern boolPattern = Pattern.compile("([\\w./\\-]+)#(YES|NO)(#NOT)?");
+	private static Pattern boolPattern = Pattern.compile(namePattern + "#(YES|NO)" + notPattern);
 
 	private Matcher boolMatch;
 

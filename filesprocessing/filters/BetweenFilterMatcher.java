@@ -20,7 +20,8 @@ public class BetweenFilterMatcher implements FilterMatcher {
     /**
      * Matcher's pattern.
      */
-    private static final Pattern betweenPattern = Pattern.compile("between#([\\d. ]+)#([\\d. ]+)(#NOT)?");
+    private static final Pattern betweenPattern = Pattern.compile("between" + numberPattern + numberPattern
+            + notPattern);
 
     /**This is the matcher for these files
      * @param input the filter name line

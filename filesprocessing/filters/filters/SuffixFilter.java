@@ -1,7 +1,5 @@
 package filesprocessing.filters.filters;
 
-import filesprocessing.filters.filters.TitleFilter;
-
 import java.io.File;
 
 /**

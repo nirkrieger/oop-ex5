@@ -3,6 +3,18 @@ package filesprocessing.filters;
 import java.io.FileFilter;
 
 public interface FilterMatcher {
+	/**
+	 * standard name pattern
+	 */
+    String namePattern = "([\\w./\\-]+)";
+	/**
+	 * standard not pattern.
+	 */
+	String notPattern = "(#NOT)?";
+	/**
+	 * standard number pattern.
+	 */
+    String numberPattern = "#([\\d. ]+)";
 
     /**This is the matcher for these files
      * @param input the filter name line

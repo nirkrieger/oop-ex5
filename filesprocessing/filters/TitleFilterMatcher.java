@@ -24,7 +24,8 @@ public class TitleFilterMatcher implements FilterMatcher {
     private static final int NOT = 3;
 
 	/**This is the filters pattern*/
-	private static final Pattern titlePattern = Pattern.compile("([\\w\\./\\-]+)#([\\w\\./\\- ]+)(#NOT)?");
+	private static final Pattern titlePattern = Pattern.compile(namePattern + "#([\\w\\./\\- ]+)" +
+            notPattern);
 
     /**This is the matchers data member*/
     Matcher titleMatch;
@@ -44,7 +45,6 @@ public class TitleFilterMatcher implements FilterMatcher {
      * @return  new filter if name is valid
      * @throws FilterNameError
      */
-    //TODO: Document this.
     @Override
     public FileFilter getFilter(String input) throws FilterFactoryException {
         String name = titleMatch.group(NAME);
