@@ -7,6 +7,8 @@ import java.io.FileFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**Implements an all filter*
+ */
 public class AllFilterMatcher implements FilterMatcher {
 
 	/**

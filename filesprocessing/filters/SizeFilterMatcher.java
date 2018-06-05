@@ -8,6 +8,9 @@ import java.io.FileFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Checks if a pattern matches a size filter and creates size filters according to the given parameters
+ */
 public class SizeFilterMatcher implements FilterMatcher {
 	/**
 	 * represents greater then filter

@@ -6,6 +6,9 @@ import java.io.FileFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Checks if a pattern matches a title filter and generates one if necessary
+ */
 public class TitleFilterMatcher implements FilterMatcher {
 
     /** represents prefix filter*/

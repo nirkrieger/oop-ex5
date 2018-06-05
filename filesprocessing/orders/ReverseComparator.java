@@ -9,6 +9,8 @@ import java.util.Comparator;
  */
 public class ReverseComparator implements Comparator<File> {
 
+	/** represents the sign to reverse an order
+	 */
 	private static final int REVERSE = -1;
 
 	/**
@@ -33,17 +35,4 @@ public class ReverseComparator implements Comparator<File> {
 		return reverse(wrappedComparator.compare(o1, o2));
 	}
 
-//	/**
-//	 * First calls wrappedOrder.orderFiles, and later reverses the array.
-//	 * @param files processed files.
-//	 */
-//	@Override
-//	public void orderFiles(File[] files) {
-//		wrappedOrder.orderFiles(files);
-//		// Pretty stupid. cast to list, reverse with Collections and then cast back to array...
-//		List<File> filesList = Arrays.asList(files);
-//		Collections.reverse(filesList);
-//		File[] reversed = new File[files.length];
-//		files = filesList.toArray(reversed);
-//	}
 }

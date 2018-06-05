@@ -7,6 +7,9 @@ import java.io.FileFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Checks if a pattern matches a certain filter and creates one accordingly
+ */
 public class BetweenFilterMatcher implements FilterMatcher {
     /** represents the first parameter */
     private static final int FIRST = 1;

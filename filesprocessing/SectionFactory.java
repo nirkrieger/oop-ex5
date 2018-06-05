@@ -143,8 +143,6 @@ class SectionFactory {
 		reset();
 		try (LineNumberReader reader = new LineNumberReader(new FileReader(commandsFile))) {
 			String line;
-//			int lineNums = countLines(commandsFile);
-			// read lines from commands file
 			while ((line = reader.readLine()) != null) {
 				if (filterSubSection) {
 					parseFilterLine(line, reader.getLineNumber());
@@ -167,10 +165,4 @@ class SectionFactory {
 		return sections.toArray(sectionsArray);
 	}
 
-//	private int countLines (File commandFile ) throws IOException {
-//		FileReader input = new FileReader(commandFile);
-//		LineNumberReader counter = new LineNumberReader(input);
-//		while (counter.skip(Long.MAX_VALUE)>0){}
-//		return counter.getLineNumber();
-//	}
 }

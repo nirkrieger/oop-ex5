@@ -89,33 +89,11 @@ public class DirectoryProcessor {
 		System.err.println(String.format(ERROR_FORMAT, msg));
 	}
 
-//	/**
-//	 * Validates given arguments.
-//	 * @param args commandline arguments.
-//	 * @return true iff arguments are valid.
-//	 */
 	/**
-	private static boolean validateInput(String[] args) {
-		// validate number of arguments
-
-		File sourceDir = new File(args[SOURCEDIR_IDX]);
-		// validate sourcedir
-		if (!sourceDir.isDirectory()) {
-			printError(new NotDirectoryException(sourceDir.getPath()).toString());
-			return false;
-		}
-		// validate commands file.
-		File commandsFile = new File(args[COMMANDSFILE_IDX]);
-		if (!commandsFile.isFile()) {
-			printError(new NoSuchFileException(commandsFile.getPath()).toString());
-			return false;
-		} else if (!commandsFile.canRead()) {
-			printError();
-			return false;
-		}
-		return true;
-	}*/
-
+	 * This is the mane class that checks if the input is valid, then parses the comands file
+	 * and filters the files of the source directory.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			if (args.length != NUM_OF_ARGS) {

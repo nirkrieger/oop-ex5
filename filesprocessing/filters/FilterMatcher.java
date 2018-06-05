@@ -2,6 +2,9 @@ package filesprocessing.filters;
 
 import java.io.FileFilter;
 
+/**
+ * An interface for all the matchers
+ */
 public interface FilterMatcher {
 	/**
 	 * standard name pattern

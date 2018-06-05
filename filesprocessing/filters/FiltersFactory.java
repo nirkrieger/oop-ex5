@@ -2,7 +2,9 @@ package filesprocessing.filters;
 
 import java.io.FileFilter;
 
-
+/**
+ * a factiry to create all the filters
+ */
 public class FiltersFactory {
 
 

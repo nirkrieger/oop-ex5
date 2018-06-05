@@ -9,6 +9,8 @@ import java.io.FileFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** Checks if a patterns matches a between filter and creates one if necessary
+ */
 public class BooleanFiltersMatcher implements FilterMatcher {
 
 	/**
