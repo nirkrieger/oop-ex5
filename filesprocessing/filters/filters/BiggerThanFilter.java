@@ -1,4 +1,6 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
+
+import filesprocessing.filters.filters.SizeFilter;
 
 import java.io.File;
 
@@ -14,7 +16,7 @@ public class BiggerThanFilter extends SizeFilter {
 	 *
 	 * @param threshold the threshold
 	 */
-	BiggerThanFilter(double threshold) {
+	public BiggerThanFilter(double threshold) {
 		this.threshold = threshold;
 	}
 

@@ -1,4 +1,4 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 
 abstract class BooleanFilter implements FileFilter{
 
-    /**This is the pattern for these filters*/
-    static Pattern boolPattern = Pattern.compile("([\\w./\\-]+)#(YES|NO)(#NOT)?");
     private boolean flag;
 
 	/**

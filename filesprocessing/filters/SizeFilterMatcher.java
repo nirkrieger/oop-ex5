@@ -1,7 +1,12 @@
 package filesprocessing.filters;
 
+import filesprocessing.filters.filters.BiggerThanFilter;
+import filesprocessing.filters.filters.NotFilter;
+import filesprocessing.filters.filters.SmallerThanFilter;
+
 import java.io.FileFilter;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SizeFilterMatcher implements FilterMatcher {
     /** represents greater then filter*/
@@ -12,11 +17,15 @@ public class SizeFilterMatcher implements FilterMatcher {
     private static final int NAME = 1;
     /** represents the first parameter*/
     private static final int FIRST_PARAMETER = 2;
-    /**represents the Not paraneter*/
+    /**represents the Not parameter*/
     private static final int NOT = 3;
+	/**
+	 * This is the filters pattern
+	 */
+	private static final Pattern sizePattern = Pattern.compile("([\\w./\\-]+)#([\\d\\. ]+)(#NOT)?");
 
     /**This is the matcher data member*/
-    Matcher sizeMatch ;
+    private Matcher sizeMatch ;
 
     /**This is the matcher for these files
      * @param input the filter name line
@@ -24,14 +33,14 @@ public class SizeFilterMatcher implements FilterMatcher {
      */
     @Override
     public boolean matches(String input) {
-        sizeMatch = SizeFilter.sizePattern.matcher(input);
+        sizeMatch = sizePattern.matcher(input);
         return sizeMatch.matches();
     }
 
     /**
      * freates the right size filter
      * @return  the new filter if the name is valid
-     * @throws FilterNameError
+     * @throws FilterNameError name error exception
      */
     @Override
     public FileFilter getFilter(String input) throws FilterFactoryException {

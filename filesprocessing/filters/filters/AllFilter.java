@@ -1,4 +1,4 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,10 +8,6 @@ import java.util.regex.Pattern;
  * All Filter - returns true for every input.
  */
 public class AllFilter implements FileFilter{
-
-	/**This is the all filter pattern*/
-	static Pattern allPattern = Pattern.compile("(all)(#NOT)?");
-
 	/**
 	 * returns true for every input.
 	 */

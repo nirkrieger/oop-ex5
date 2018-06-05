@@ -1,4 +1,6 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
+
+import filesprocessing.filters.filters.TitleFilter;
 
 import java.io.File;
 
@@ -10,7 +12,7 @@ public class SuffixFilter extends TitleFilter {
 	 * Constructor.
 	 * @param suffix the suffix we are filtering
 	 */
-	SuffixFilter(String suffix) {
+	public SuffixFilter(String suffix) {
 		super(suffix);
 	}
 

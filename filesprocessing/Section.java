@@ -1,13 +1,10 @@
 package filesprocessing;
 
-import filesprocessing.filters.AllFilter;
-import filesprocessing.orders.AbsComparator;
+import filesprocessing.filters.filters.AllFilter;
 import filesprocessing.orders.OrderFactory;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
-import java.nio.file.NotDirectoryException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;

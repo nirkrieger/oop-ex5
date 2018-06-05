@@ -167,10 +167,10 @@ class SectionFactory {
 		return sections.toArray(sectionsArray);
 	}
 
-	private int countLines (File commandFile ) throws IOException {
-		FileReader input = new FileReader(commandFile);
-		LineNumberReader counter = new LineNumberReader(input);
-		while (counter.skip(Long.MAX_VALUE)>0){}
-		return counter.getLineNumber();
-	}
+//	private int countLines (File commandFile ) throws IOException {
+//		FileReader input = new FileReader(commandFile);
+//		LineNumberReader counter = new LineNumberReader(input);
+//		while (counter.skip(Long.MAX_VALUE)>0){}
+//		return counter.getLineNumber();
+//	}
 }

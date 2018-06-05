@@ -1,7 +1,13 @@
 package filesprocessing.filters;
 
+import filesprocessing.filters.filters.ExecutableFilter;
+import filesprocessing.filters.filters.HiddenFilter;
+import filesprocessing.filters.filters.NotFilter;
+import filesprocessing.filters.filters.WritableFilter;
+
 import java.io.FileFilter;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BooleanFiltersMatcher implements FilterMatcher {
 
@@ -38,11 +44,14 @@ public class BooleanFiltersMatcher implements FilterMatcher {
 	 */
 	private static final int NOT = 3;
 
-	Matcher boolMatch;
+	/**This is the pattern for these filters*/
+	private static Pattern boolPattern = Pattern.compile("([\\w./\\-]+)#(YES|NO)(#NOT)?");
+
+	private Matcher boolMatch;
 
 	@Override
 	public boolean matches(String input) {
-		boolMatch = BooleanFilter.boolPattern.matcher(input);
+		boolMatch = boolPattern.matcher(input);
 		return boolMatch.matches();
 	}
 
@@ -50,7 +59,7 @@ public class BooleanFiltersMatcher implements FilterMatcher {
 	 * creates a Yes/No filter
 	 *
 	 * @return the new filter if the name is valid
-	 * @throws FilterNameError
+	 * @throws FilterNameError no such filter found.
 	 */
 	@Override
 	public FileFilter getFilter(String input) throws FilterFactoryException {
@@ -59,12 +68,17 @@ public class BooleanFiltersMatcher implements FilterMatcher {
 		boolean value;
 		FileFilter currentFilter;
 		// parse YES/NO string.
-		if (booleanString.equals(YES)) {
-			value = true;
-		} else if (booleanString.equals(NO)) {
-			value = false;
-		} else {
-			throw new FilterArgumentsError();
+		switch (booleanString) {
+			case YES: {
+				value = true;
+				break;
+			}
+			case NO: {
+				value = false;
+				break;
+			}
+			default:
+				throw new FilterArgumentsError();
 		}
 		switch (name) {
 			case WRITABLE: {

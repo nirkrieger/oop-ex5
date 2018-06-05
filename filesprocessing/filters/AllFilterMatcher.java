@@ -1,41 +1,51 @@
 package filesprocessing.filters;
 
+import filesprocessing.filters.filters.AllFilter;
+import filesprocessing.filters.filters.NotFilter;
+
 import java.io.FileFilter;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AllFilterMatcher implements FilterMatcher {
 
-    /**this is the matcher for this case*/
-    Matcher allMatch;
+	/**
+	 * This is the all filter pattern
+	 */
+	private Pattern allPattern = Pattern.compile("all(#NOT)?");
 
-    /**This represents the all filter name*/
-    private static final String ALL = "all";
-
-    /**This is the matcher for these files
-     * @param input the filter name line
-     * @return uf the filtter patterns matches
-     */
-    @Override
-    public boolean matches(String input) {
-        allMatch = AllFilter.allPattern.matcher(input);
-        return allMatch.matches();
-    }
-
-    /**
-     * creates a file filter
-     * @return the new filter if it is valid
-     * @throws MinBiggerThanMaxException
-     */
-    @Override
-    public FileFilter getFilter(String input) throws FilterFactoryException {
-        FileFilter currentFilter;
-        if (!allMatch.group(1).equals(ALL)) // TODO: do we really need this?
-            throw new FilterNameError();
-        currentFilter = new AllFilter();
-        if (allMatch.group(2) != null)
-            return new NotFilter(currentFilter);
-        return currentFilter;
+	/**
+	 * Not group.
+	 */
+	private static final int NOT = 1;
+	/**
+	 * this is the matcher for this case
+	 */
+	private Matcher allMatch;
 
 
-    }
+	/**
+	 * This is the matcher for these files
+	 *
+	 * @param input the filter name line
+	 * @return uf the filtter patterns matches
+	 */
+	@Override
+	public boolean matches(String input) {
+		allMatch = allPattern.matcher(input);
+		return allMatch.matches();
+	}
+
+	/**
+	 * creates a file filter
+	 *
+	 * @return the new filter if it is valid
+	 */
+	@Override
+	public FileFilter getFilter(String input) {
+		FileFilter currentFilter = new AllFilter();
+		if (allMatch.group(NOT) != null)
+			return new NotFilter(currentFilter);
+		return currentFilter;
+	}
 }

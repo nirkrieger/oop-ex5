@@ -1,7 +1,10 @@
 package filesprocessing.filters;
 
+import filesprocessing.filters.filters.*;
+
 import java.io.FileFilter;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TitleFilterMatcher implements FilterMatcher {
 
@@ -20,6 +23,9 @@ public class TitleFilterMatcher implements FilterMatcher {
     /**represents the Not paraneter*/
     private static final int NOT = 3;
 
+	/**This is the filters pattern*/
+	private static final Pattern titlePattern = Pattern.compile("([\\w\\./\\-]+)#([\\w\\./\\- ]+)(#NOT)?");
+
     /**This is the matchers data member*/
     Matcher titleMatch;
 
@@ -29,7 +35,7 @@ public class TitleFilterMatcher implements FilterMatcher {
      */
     @Override
     public boolean matches(String input) {
-        titleMatch = TitleFilter.titlePattern.matcher(input);
+        titleMatch = titlePattern.matcher(input);
         return titleMatch.matches();
     }
 

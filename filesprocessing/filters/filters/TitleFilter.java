@@ -1,13 +1,9 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
 
 import java.io.FileFilter;
 import java.util.regex.Pattern;
 
 public abstract class TitleFilter implements FileFilter{
-
-    /**This is the filters pattern*/
-    static Pattern titlePattern = Pattern.compile("([\\w\\./\\-]+)#([\\w\\./\\- ]+)(#NOT)?");
-
 	/** This is the sequence we are checking for*/
 	private String seq;
 	/**

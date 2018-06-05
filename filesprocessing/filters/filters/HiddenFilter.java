@@ -1,4 +1,6 @@
-package filesprocessing.filters;
+package filesprocessing.filters.filters;
+
+import filesprocessing.filters.filters.BooleanFilter;
 
 import java.io.File;
 
